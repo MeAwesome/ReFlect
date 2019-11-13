@@ -3,4 +3,4 @@
 
 **Last Update:** *11/13/2019*
 
-***Purpose:*** *Display the current time and date on the mirror.*
+***Purpose:*** `*Display the current time and date on the mirror.*`
