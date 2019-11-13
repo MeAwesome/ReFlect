@@ -6,4 +6,4 @@
 
 ### Purpose:
 
-**Display the current time and date on the mirror.**
+`Display the current time and date on the mirror.`
