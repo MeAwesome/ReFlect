@@ -20,6 +20,6 @@ This module comes pre-installed with ReFlect.
 
 | Option | Description
 | ------ | ------
-| `region` | The region on the mirror to be displayed. <br><br> **Possible Values:** *Read* __Mirror Regions__ <br> **Default Value:** `top-left`
+| `region` | The region on the mirror to be displayed. <br><br> **Possible Values:** *Read Mirror >  Regions* <br> **Default Value:** `top-left`
 
 ##
