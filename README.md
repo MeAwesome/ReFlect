@@ -44,3 +44,7 @@ A Clearer Look At Your Day
   - Icon Bottom Left
   - Icon Bottom Middle
   - Icon Bottom Right
+- Border
+  - Border Flash
+  - Border Pulse
+  - Border Glow
