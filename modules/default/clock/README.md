@@ -6,6 +6,20 @@
 
 ## Purpose
 
-`Display the current time and date on the mirror.`
+Display the current time and date on the mirror.
 
 ## Images
+
+
+
+## Installation
+
+This module comes pre-installed with ReFlect.
+
+## Configuration
+
+| Option | Description
+| ------ | ------
+| `region` | The region on the mirror to be displayed. <br><br> **Possible Values:** <br> **Default Value:** `top-left`
+
+##
