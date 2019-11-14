@@ -30,5 +30,6 @@ Configure this module in the `description.json` file or using the default *contr
 | `periodStyle` | Changes how the period will be shown. <br> ***Requires*** `timeFormat` ***to be set to*** `12`***.*** <br><br> **Possible Values:** `lowercase`, `uppercase`, or `hidden` <br> **Default Value:** `lowercase`
 | `date`        | Displays the date. <br><br> **Possible Values:** `true` or `false` <br> **Default Value:** `true`
 | `dateFormat`  | Changes how the date will be displayed. <br> ***Requires*** `date` ***to be set to*** `true`***.*** <br><br> **Possible Values:** *Read [Dates](https://github.com/MeAwesome/ReFlect/wiki/Dates)* <br> **Default Value:** `dddd-mmmm-d-yyyy`
+| `timezone`    | Changes the timezone of the clock. <br><br> **Possible Values:** `eastern`, `central`, `mountain`, `pacific`, or `auto` <br> **Default Value:** `auto`
 
 ##
