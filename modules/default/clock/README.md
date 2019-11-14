@@ -28,6 +28,6 @@ Configure this module in the `description.json` file or using the default *contr
 | `timeFormat`  | Displays the time in a `12` or `24` hour format. <br> ***Requires*** `style` ***to be set to*** `digital`***.*** <br><br> **Possible Values:** `12` or `24` <br> **Default Value:** `12`
 | `seconds`     | Displays the seconds. <br><br> **Possible Values:** `true` or `false` <br> **Default Value:** `false`
 | `periodStyle` | Changes how the period will be shown. <br> ***Requires*** `timeFormat` ***to be set to*** `12`***.*** <br><br> **Possible Values:** `lowercase`, `uppercase`, or `hidden` <br> **Default Value:** `lowercase`
-| `dateFormat`  | Changes how the date will be displayed. <br><br> **Possible Values:** *Read [Dates]* <br> **Default Value:** `dddd-mmmm-d-yyyy`
+| `dateFormat`  | Changes how the date will be displayed. <br><br> **Possible Values:** *Read [Dates](https://github.com/MeAwesome/ReFlect/wiki/Dates)* <br> **Default Value:** `dddd-mmmm-d-yyyy`
 
 ##
