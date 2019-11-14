@@ -3,7 +3,8 @@
     "name":"Default",
     "description":"The default style for the Clock",
     "designer":"Isaac Robbins",
-    "icon":"clock.png"
+    "icon":"clock.png",
+    "editable":false
   },
   "modifiers":{
     "backgroundColor":"#000000",
