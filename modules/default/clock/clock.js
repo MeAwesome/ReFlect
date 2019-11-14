@@ -1,6 +1,5 @@
 //Developed By: Isaac Robbins
-//Last Update: 11/9/2019
-//For Use With: HSE Schedule App
+//For Use With: ReFlect
 
 var ScriptPlus = {
 	config:{
