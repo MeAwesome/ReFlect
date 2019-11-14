@@ -18,7 +18,7 @@ This module comes pre-installed with ReFlect.
 
 ## Configuration
 
-Configure this module in the `description.json` file or using the *controller* module.
+Configure this module in the `description.json` file or using the default *controller* module.
 
 | Option        | Description
 | ------------- | -----------
