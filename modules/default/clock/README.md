@@ -24,9 +24,10 @@ Configure this module in the `description.json` file or using the default *contr
 | ------------- | -----------
 | `region`      | The region on the mirror to be displayed. <br><br> **Possible Values:** *Read [Regions](https://github.com/MeAwesome/ReFlect/wiki/Regions#valid-regions)* <br> **Default Value:** `top-left`
 | `style`       | Changes how the clock will be rendered. <br><br> **Possible Values:** `digital` or `analog` <br> **Default Value:** `digital`
+| `theme`       | Changes the color (and font if `style` is set to `digital`) of the clock. <br><br> **Possible Values:** *Read clock > themes* <br> **Default Value:** `default`
 | `timeFormat`  | Displays the time in a `12` or `24` hour format. <br> ***Requires*** `style` ***to be set to*** `digital`***.*** <br><br> **Possible Values:** `12` or `24` <br> **Default Value:** `12`
 | `seconds`     | Displays the seconds. <br><br> **Possible Values:** `true` or `false` <br> **Default Value:** `false`
 | `periodStyle` | Changes how the period will be shown. <br> ***Requires*** `timeFormat` ***to be set to*** `12`***.*** <br><br> **Possible Values:** `lowercase`, `uppercase`, or `hidden` <br> **Default Value:** `lowercase`
-| `theme`       | Changes the color (and font if `style` is set to `digital`) of the clock. <br><br> **Possible Values:** *Read clock > themes* <br> **Default Value:** `default`
+| `dateFormat`  | Changes how the date will be displayed. <br><br> **Possible Values:** *Read [Dates]* <br> **Default Value:** `dddd-mmmm-d-yyyy`
 
 ##
