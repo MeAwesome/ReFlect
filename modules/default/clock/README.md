@@ -22,7 +22,7 @@ Configure this module in the `description.json` file or using the default *contr
 
 | Option        | Description
 | ------------- | -----------
-| `region`      | The region on the mirror to be displayed. <br><br> **Possible Values:** *Read Mirror > Regions* <br> **Default Value:** `top-left`
+| `region`      | The region on the mirror to be displayed. <br><br> **Possible Values:** *Read [Regions](https://github.com/MeAwesome/ReFlect/wiki/Regions#valid-regions)* <br> **Default Value:** `top-left`
 | `style`       | Changes how the clock will be rendered. <br><br> **Possible Values:** `digital` or `analog` <br> **Default Value:** `digital`
 | `timeFormat`  | Displays the time in a `12` or `24` hour format. <br> ***Requires*** `style` ***to be set to*** `digital`***.*** <br><br> **Possible Values:** `12` or `24` <br> **Default Value:** `12`
 | `seconds`     | Displays the seconds. <br><br> **Possible Values:** `true` or `false` <br> **Default Value:** `false`
