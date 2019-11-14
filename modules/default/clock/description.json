@@ -7,6 +7,7 @@
     "style":"digital-classic",
     "timeFormat":12,
     "seconds":false,
-    "periodStyle":"lowercase"
+    "periodStyle":"lowercase",
+    "theme":"default"
   }
 }
