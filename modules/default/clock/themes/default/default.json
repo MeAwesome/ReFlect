@@ -3,7 +3,7 @@
     "name":"Default",
     "description":"The default style for the Clock",
     "designer":"Isaac Robbins",
-    "icon":"clock.png",
+    "icon":"defaultIcon.svg",
     "editable":false
   },
   "modifiers":{
