@@ -1,0 +1,5 @@
+{
+  "scripts":[
+    "/socket.io/socket.io.js"
+  ]
+}
