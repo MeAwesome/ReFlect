@@ -1,6 +1,10 @@
 //Developed By: Isaac Robbins
 //For Use With: ReFlect
 
+var Clock = {
+	
+}
+
 var ScriptPlus = {
 	config:{
 		debug:false,

@@ -7,7 +7,7 @@ var Log = {
     } else if(color.indexOf("#") == -1){
       color = "#" + Color.toHex(color);
     }
-    console.log("%c"message, "color:" + color);
+    console.log("%c" + message, "color:" + color);
   },
   warn:function(message){
     console.warn(message);

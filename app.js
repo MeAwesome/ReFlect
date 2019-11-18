@@ -1,5 +1,6 @@
 var express = require("express");
 var os = require("os");
+var $ = require("jquery");
 var app = express();
 var serv = require("http").Server(app);
 var io = require("socket.io")(serv,{});
@@ -7,9 +8,9 @@ var chalk = require("chalk");
 var port = 51000;
 
 app.get("/", function(req, res){
-	res.sendFile(__dirname + "/clientonly/index.html");
+	res.sendFile(__dirname + "/index.html");
 });
-app.use("/client", express.static(__dirname + "/client"));
+app.use("/", express.static(__dirname + "/"));
 
 var __ConnectTo__ = os.networkInterfaces()["Wi-Fi"][1].address + ":" + port;
 
