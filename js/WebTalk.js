@@ -8,7 +8,7 @@ var WebTalk = {
 			var rawFile = new XMLHttpRequest();
 	    rawFile.open("GET", file, true);
 	    rawFile.onreadystatechange = function(){
-				if (rawFile.readyState == 4 && rawFile.status == "200"){
+				if(rawFile.readyState == 4 && rawFile.status == "200"){
 					resolve(rawFile.responseText);
 				}
 	    }
@@ -16,7 +16,7 @@ var WebTalk = {
 		});
 	}
 }
-
+/*
 function readFileOnline(file, callback) {
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, true);
@@ -27,7 +27,7 @@ function readFileOnline(file, callback) {
 		}
     }
     rawFile.send(null);
-}
+}*/
 
 function loadScript(dir, callback){
 	var file = document.createElement("script");

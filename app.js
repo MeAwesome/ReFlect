@@ -1,6 +1,5 @@
 var express = require("express");
 var os = require("os");
-var $ = require("jquery");
 var app = express();
 var serv = require("http").Server(app);
 var io = require("socket.io")(serv,{});
@@ -16,4 +15,4 @@ var __ConnectTo__ = os.networkInterfaces()["Wi-Fi"][1].address + ":" + port;
 
 serv.listen(port);
 console.clear();
-console.log("--> Mirror started on } " + __ConnectTo__, "greenBright");
+console.log("--> Mirror started on } " + __ConnectTo__);
