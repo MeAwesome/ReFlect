@@ -1,7 +1,7 @@
 {
   "meta":{
     "name":"Default",
-    "description":"The default style for the Clock",
+    "description":"The default style for the clock",
     "designer":"Isaac Robbins",
     "icon":"icon.svg",
     "editable":false
