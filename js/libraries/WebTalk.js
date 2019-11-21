@@ -1,10 +1,7 @@
 var WebTalk = {
-	config:{
-		debug:true,
-		version:"1.0.0"
-	},
+	DEBUG:true,
 	readFileOnline:function(file){
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			var rawFile = new XMLHttpRequest();
 	    rawFile.open("GET", file, true);
 	    rawFile.onreadystatechange = function(){
@@ -12,22 +9,31 @@ var WebTalk = {
 					resolve(rawFile.responseText);
 				}
 	    }
+			rawFile.onerror = function(){
+				reject("File Could Not Be Obtained");
+			}
 	    rawFile.send(null);
+		});
+	},
+	loadImage:function(key, src){
+		return new Promise((resolve, reject) => {
+			var image = new Image();
+			image.src = src;
+			image.onload = function(){
+				if(typeof(Log) != undefined && WebTalk.DEBUG == true){
+					Log.debugLog("Loaded Image '" + key + "' from '" + src + "'");
+				}
+				if(typeof(LoadedImages) != undefined && WebTalk.DEBUG == true){
+					LoadedImages.setImage(key, image);
+				}
+				resolve(image);
+			}
+			image.onerror = function(){
+				reject("Image Could Not Be Obtained");
+			}
 		});
 	}
 }
-/*
-function readFileOnline(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function(){
-		if (rawFile.readyState == 4 && rawFile.status == "200"){
-			webTalkDebugLogging("Read Online File (" + file + ")");
-			callback(rawFile.responseText);
-		}
-    }
-    rawFile.send(null);
-}*/
 
 function loadScript(dir, callback){
 	var file = document.createElement("script");

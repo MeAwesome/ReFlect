@@ -5,6 +5,7 @@ var Color = {
   "red":"#FF0000",
   "green":"#00FF00",
   "blue":"#0000FF",
+  "orange":"#FF8000",
   toHex:function(rgb){
     var hex = Number(rgb).toString(16);
     if(hex.length < 2){
