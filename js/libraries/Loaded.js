@@ -1,4 +1,4 @@
-var LoadedImages = {
+var Loaded = {
   DEBUG:true,
   images:{},
   saveImage:function(key, src){

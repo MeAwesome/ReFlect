@@ -1,18 +1,28 @@
 var WebTalk = {
 	DEBUG:true,
-	readFileOnline:function(file){
-		return new Promise((resolve, reject) => {
-			var rawFile = new XMLHttpRequest();
-	    rawFile.open("GET", file, true);
-	    rawFile.onreadystatechange = function(){
-				if(rawFile.readyState == 4 && rawFile.status == "200"){
-					resolve(rawFile.responseText);
-				}
-	    }
-			rawFile.onerror = function(){
-				reject("File Could Not Be Obtained");
+	getData:null,
+	get:function(file){
+		var rawFile = new XMLHttpRequest();
+		rawFile.open("GET", file, true);
+		rawFile.onreadystatechange = function(){
+			if(rawFile.readyState == 4 && rawFile.status == "200"){
+				WebTalk.getData = rawFile.responseText;
 			}
-	    rawFile.send(null);
+		}
+		rawFile.onerror = function(){
+			WebTalk.getData = "[WebTalk] File Could Not Be Obtained";
+		}
+		rawFile.send(null);
+		return new Promise((resolve, reject) => {
+			whenNotEquals("WebTalk.getData", "null", () => {
+				var data = WebTalk.getData;
+				WebTalk.getData = null;
+				if(data == "[WebTalk] File Could Not Be Obtained"){
+					reject(data);
+				} else {
+					resolve(data);
+				}
+			});
 		});
 	},
 	loadImage:function(key, src){

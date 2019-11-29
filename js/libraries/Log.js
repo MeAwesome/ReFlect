@@ -29,14 +29,30 @@ var Log = {
   error:function(message){
     console.error(message);
   },
-  whenEqualsLog:function(variable, value, message, color){
+  whenEqualsLog:function(variable, value, run){
     var id = Math.random();
-    Log.intervals[id] = setInterval(() => {
-      if(eval(variable) == value && id in Log.intervals){
-        Log.log(message, color);
-        clearInterval(Log.intervals[id]);
-        delete Log.intervals[id];
-      }
-    }, 100, id, variable, value, message, color);
-  }
+	  var interval = setInterval(() => {
+      try{
+        if(eval(variable) == eval(value)){
+		      clearInterval(interval);
+		        run();
+		    }
+		  } catch{
+
+		  }
+	  }, 100, id, interval, variable, value, run);
+	},
+  whenNotEqualsLog:function(variable, value, run){
+    var id = Math.random();
+	  var interval = setInterval(() => {
+      try{
+        if(eval(variable) != eval(value)){
+		      clearInterval(interval);
+		        run();
+		    }
+		  } catch{
+
+		  }
+	  }, 100, id, interval, variable, value, run);
+	}
 }

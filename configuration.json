@@ -1,0 +1,12 @@
+{
+  "libraries":[
+    "$",
+    "io",
+    "Log",
+    "Color",
+    "ScriptPlus",
+    "WebTalk",
+    "CanTools",
+    "Loaded"
+  ]
+}
