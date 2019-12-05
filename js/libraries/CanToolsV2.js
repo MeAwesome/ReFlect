@@ -5,7 +5,10 @@ var CanTools = {
 		version:"2.0.0"
 	},
 	Canvas:function(id, width, height){
-		return new Canvas(document.getElementById(id), width, height);
+		var canvas = document.createElement("canvas");
+		canvas.setAttribute("id", id);
+		document.body.append(canvas);
+		return new Canvas(canvas, width, height);
 	}
 }
 

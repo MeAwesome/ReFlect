@@ -1,6 +1,8 @@
 async function startReFlect(){
   if(await checkLibraries()){
     MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
+  } else {
+    exit();
   }
 }
 
