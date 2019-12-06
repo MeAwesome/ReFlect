@@ -1,6 +1,8 @@
 async function startReFlect(){
   if(await checkLibraries()){
+    setLoadingProgressText("Initializing The Canvas");
     MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
+    setLoadingProgressText("Loading Modules [" + CONFIGURATION.modules.length + "]");
     return 200;
   } else {
     try{
@@ -8,6 +10,7 @@ async function startReFlect(){
     } catch {
       console.error("Libraries were not loaded successfully - Exiting");
     }
+    setLoadingProgressText("Error 404 - Libraries Not Found", true);
     return 404;
   }
 }
@@ -36,4 +39,11 @@ async function checkLibraries(){
     error = true;
   }
   return !error;
+}
+
+function setLoadingProgressText(message, error){
+  document.getElementById("Loading Progress").innerHTML = message;
+  if(error){
+    document.getElementById("Loading Image").src = "/images/logos/ReFlectErrorBlack.svg";
+  }
 }
