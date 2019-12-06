@@ -42,6 +42,19 @@ var WebTalk = {
 				reject("Image Could Not Be Obtained");
 			}
 		});
+	},
+	loadScript:function(src){
+		return new Promise((resolve, reject) =>{
+			var file = document.createElement("script");
+			file.setAttribute("src", src);
+			document.getElementsByTagName("body")[0].appendChild(file);
+			file.onload = function(){
+				resolve(200);
+			}
+			file.onerror = function(err){
+				reject(err);
+			}
+		});
 	}
 }
 

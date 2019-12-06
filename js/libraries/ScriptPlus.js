@@ -309,6 +309,10 @@ Date.prototype.getWeek = function() {
   return Math.ceil((((this - d) / 86400000) + d.getDay()+1)/7) - 1;
 }
 
+String.prototype.capitalize = function(){
+  return this.charAt(0).toUpperCase() + this.slice(1)
+}
+
 function scriptPlusDebugLogging(message){
 	if(ScriptPlus.config.debug){
 		console.log("%c[ScriptPlus - Version " + ScriptPlus.config.version + "] " + message, "color:#FF8C00");

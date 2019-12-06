@@ -2,7 +2,7 @@
 //For Use With: ReFlect
 
 var Clock = {
-	
+
 }
 
 var ScriptPlus = {

@@ -10,6 +10,6 @@
     "Loaded"
   ],
   "modules":[
-    "clock"
+    "default/cclock"
   ]
 }
