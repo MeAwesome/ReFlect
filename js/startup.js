@@ -1,8 +1,14 @@
 async function startReFlect(){
   if(await checkLibraries()){
     MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
+    return 200;
   } else {
-    exit();
+    try{
+      Log.error("Libraries were not loaded successfully - Exiting");
+    } catch {
+      console.error("Libraries were not loaded successfully - Exiting");
+    }
+    return 404;
   }
 }
 
