@@ -1,15 +1,5 @@
 {
-  "libraries":[
-    "$",
-    "io",
-    "Log",
-    "Color",
-    "ScriptPlus",
-    "WebTalk",
-    "CanTools",
-    "Loaded"
-  ],
-  "modules":[
+  "moduless":[
     "default/cclock"
   ]
 }

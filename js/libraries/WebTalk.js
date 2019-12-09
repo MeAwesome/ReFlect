@@ -1,27 +1,33 @@
 var WebTalk = {
 	DEBUG:true,
+	socket:null,
+	socketData:{
+		connected:null,
+		connectedToRoom:"global",
+		helpers:{
+			roomChanged:false
+		}
+	},
 	getData:null,
 	get:function(file){
 		var rawFile = new XMLHttpRequest();
-		rawFile.open("GET", file, true);
-		rawFile.onreadystatechange = function(){
-			if(rawFile.readyState == 4 && rawFile.status == "200"){
-				WebTalk.getData = rawFile.responseText;
+		rawFile.open("GET", file);
+		rawFile.send();
+		rawFile.onload = function(){
+			if(rawFile.status == 200){
+				WebTalk.getData = rawFile.responceText;
+			} else {
+				WebTalk.getData = "[WebTalk.getData] 404";
 			}
 		}
 		rawFile.onerror = function(){
-			WebTalk.getData = "[WebTalk] File Could Not Be Obtained";
+			WebTalk.getData = "[WebTalk.getData] 404";
 		}
-		rawFile.send(null);
 		return new Promise((resolve, reject) => {
 			whenNotEquals("WebTalk.getData", "null", () => {
 				var data = WebTalk.getData;
 				WebTalk.getData = null;
-				if(data == "[WebTalk] File Could Not Be Obtained"){
-					reject(data);
-				} else {
-					resolve(data);
-				}
+				resolve(data);
 			});
 		});
 	},
@@ -55,18 +61,43 @@ var WebTalk = {
 				reject(err);
 			}
 		});
-	}
-}
+	},
+	createConnection:async function(){
+		WebTalk.socket = await io();
+		await WebTalk.bindSocketOnEvents();
+		await WebTalk.connectTo(WebTalk.socketData.connectedToRoom);
+	},
+	connectAs:function(name){
 
-function loadScript(dir, callback){
-	var file = document.createElement("script");
-	file.setAttribute("type", "text/javascript");
-	file.setAttribute("src", dir);
-	file.onload = function(){
-		webTalkDebugLogging("Loaded Script (" + dir + ")");
-		callback();
-	};
-	document.getElementsByTagName("head")[0].appendChild(file);
+	},
+	connectTo:function(room){
+		WebTalk.socket.emit("CONNECT_TO_ROOM", room);
+		return new Promise((resolve) => {
+			whenNotEquals("WebTalk.socketData.helpers.roomChanged", "false", () => {
+				WebTalk.socketData.helpers.roomChanged = false;
+				resolve(200);
+			});
+		});
+	},
+	bindSocketOnEvents:function(){
+		var soc = WebTalk.socket;
+		soc.on("connect", async () => {
+			if(WebTalk.socketData.connected == false){
+				await WebTalk._onSocketReconnect();
+			}
+		});
+		soc.on("disconnect", () => {
+			WebTalk.socketData.connected = false;
+		});
+		soc.on("CONNECTED_TO_ROOM", (room) => {
+			WebTalk.socketData.connectedToRoom = room;
+			WebTalk.socketData.helpers.roomChanged = true;
+		});
+	},
+	_onSocketReconnect:async function(){
+		WebTalk.socketData.connected = true;
+		await WebTalk.connectTo(WebTalk.socketData.connectedToRoom);
+	}
 }
 
 function loadImage(dir, key, callback){
@@ -123,69 +154,4 @@ function loadFont(dir, callback){
 		callback();
 	};
 	document.getElementsByTagName("head")[0].appendChild(font);
-}
-
-class SockConnection{
-	constructor(room){
-		var obj = this;
-		this.soc = io();
-		SocketConnected = true;
-		webTalkDebugLogging("Created New Socket");
-		this.soc.on("disconnect", function(){
-			SocketConnected = false;
-		});
-		if(room != undefined){
-			this.soc.room = room;
-			this.soc.emit("SocketJoinRoom", room);
-			this.soc.on("SocketJoinedRoom", function(){
-				webTalkDebugLogging("Added Socket To Room (" + room + ")");
-			});
-		}
-		this.soc.requestData = function(data){
-			obj.requestData(data);
-		}
-		this.soc.setData = function(data, val){
-			obj.setData(data, val);
-		}
-		this.soc.toMirror = function(msg, data){
-			obj.toMirror(msg, data);
-		}
-		webTalkDebugLogging("Socket Ready For Use");
-		return this.soc;
-	}
-	requestData(data){
-		if(data == undefined){
-			data = "SENDALLDATA";
-		}
-		this.soc.emit("SocketRequestingData", data);
-		webTalkDebugLogging("Socket Requesting Data (" + data + ")");
-	}
-	setData(data, val){
-		this.soc.emit("SocketSetData", data, val);
-		webTalkDebugLogging("Socket Setting Data (" + data + ") To (" + val + ")");
-	}
-	toMirror(msg, data){
-		if(data == undefined){
-			this.soc.emit("sendToMirror", msg);
-			webTalkDebugLogging("Socket Sending Message (" + msg + ") To Mirror");
-		} else {
-			this.soc.emit("sendToMirror", msg, data);
-			webTalkDebugLogging("Socket Sending Message (" + msg + ") To Mirror With Data (" + data + ")");
-		}
-	}
-	toController(msg, data){
-		if(data == undefined){
-			this.soc.emit("sendToController", msg);
-			webTalkDebugLogging("Socket Sending Message (" + msg + ") To Controller");
-		} else {
-			this.soc.emit("sendToController", msg, data);
-			webTalkDebugLogging("Socket Sending Message (" + msg + ") To Controller With Data (" + data + ")");
-		}
-	}
-}
-
-function webTalkDebugLogging(message){
-	if(WebTalk.config.debug){
-		console.log("%c[WebTalk - Version " + WebTalk.config.version + "] " + message, "color:#FF00FF");
-	}
 }

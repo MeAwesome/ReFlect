@@ -297,6 +297,14 @@ function whenNotEquals(variable, value, run){
 	}, 100, id, interval, variable, value, run);
 }
 
+function getDeviceType(){
+	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+		return "mobile";
+	} else {
+		return "computer";
+	}
+}
+
 Array.prototype.pickValue = function(){
 	var randomValue = Math.floor(Math.random()*this.length);
 	scriptPlusDebugLogging("Picked Random Value (" + randomValue + ") From Range (0 - " + (this.length - 1) + ")");

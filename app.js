@@ -1,18 +1,44 @@
-var express = require("express");
-var os = require("os");
-var app = express();
-var serv = require("http").Server(app);
-var io = require("socket.io")(serv,{});
-var chalk = require("chalk");
-var port = 51000;
+const express = require("express");
+const os = require("os");
+const app = express();
+const serv = require("http").Server(app);
+const io = require("socket.io")(serv,{});
+const chalk = require("chalk");
+const port = 51000;
 
-app.get("/", function(req, res){
+app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/index.html");
 });
 app.use("/", express.static(__dirname + "/"));
 
-var __ConnectTo__ = os.networkInterfaces()["Wi-Fi"][1].address + ":" + port;
+const __ConnectTo__ = os.networkInterfaces()["Wi-Fi"][1].address + ":" + port;
 
 serv.listen(port);
 console.clear();
-console.log("--> Mirror started on } " + __ConnectTo__);
+Log("> ReFlect Started" +
+		"\n\t|> " + __ConnectTo__
+, "greenBright");
+
+const Sockets = {};
+
+io.on("connection", (socket) => {
+	socket.id = Math.random();
+	Sockets[socket.id] = socket;
+	Log("> New Device Connection" +
+			"\n\t|-ip: " + socket.request.connection.remoteAddress.replace("::ffff:", "")
+	, "greenBright");
+
+	socket.on("CONNECT_TO_ROOM", (room) => {
+		Sockets[socket.id].room = room;
+		Log(room);
+		Sockets[socket.id].emit("CONNECTED_TO_ROOM", room);
+	});
+
+});
+
+function Log(message, color){
+	if(color == undefined){
+		color = "white";
+	}
+	console.log(chalk[color](message));
+}
