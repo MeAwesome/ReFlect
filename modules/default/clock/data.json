@@ -6,6 +6,7 @@
     "region":"top-left",
     "type":"digital",
     "theme":"default",
+    "themes":["default"],
     "timeFormat":12,
     "seconds":false,
     "periodStyle":"lowercase",

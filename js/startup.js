@@ -45,9 +45,21 @@ async function loadModules(){
     var modName = modPath.replace("default/", "");
     try{
       await WebTalk.loadScript("/modules/" + modPath + "/" + modName + ".js");
-      MODULES[modName.capitalize()] = eval(modName.capitalize());
-    } catch {
-      Log.error(modName + " does not contain " + modName + ".js or the object " + modName.capitalize());
+      MODULES[modName.capitalize()] = {
+        "program":eval(modName.capitalize()),
+        "data":JSON.parse(await WebTalk.getPromise("/modules/" + modPath + "/data.json")),
+        "themes":{}
+      };
+      for(var theme = 0; theme < MODULES[modName.capitalize()].data.config.themes.length; theme++){
+        var themeName = MODULES[modName.capitalize()].data.config.themes[theme];
+        MODULES[modName.capitalize()].themes[themeName.capitalize()] = {
+          "styling":JSON.parse(await WebTalk.getPromise("/modules/" + modPath + "/themes/" + themeName + "/" + themeName + ".json")),
+          "logo":await WebTalk.loadImage(themeName.capitalize() + " Icon", "/modules/" + modPath + "/themes/" + themeName + "/icon.svg")
+        };
+      }
+    } catch(err) {
+      Log.error(err);
+      Log.error(modName.capitalize() + " does not contain " + modName + ".js, the object " + modName.capitalize() + ", or another required file");
       return 404;
     }
   }

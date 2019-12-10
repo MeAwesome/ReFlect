@@ -6,21 +6,21 @@ var Loaded = {
 			var image = new Image();
 			image.src = dir;
 			image.onload = function(){
-				if(typeof(Log) != undefined && LoadedImages.DEBUG == true){
+				if(typeof(Log) != undefined && Loaded.DEBUG == true){
 					Log.debugLog("Loaded Image ''" + key + "'' from '" + src + "'");
 				}
-        LoadedImages.images[key] = image;
+        Loaded.images[key] = image;
 				resolve();
 			}
 		});
   },
   setImage:function(key, img){
-    LoadedImages.images[key] = img;
-    if(typeof(Log) != undefined && LoadedImages.DEBUG == true){
+    Loaded.images[key] = img;
+    if(typeof(Log) != undefined && Loaded.DEBUG == true){
       Log.debugLog("Set Image '" + key + "'");
     }
   },
   getImage:function(key){
-    return LoadedImages.images[key];
+    return Loaded.images[key];
   }
 }

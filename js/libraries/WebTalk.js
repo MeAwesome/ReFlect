@@ -42,8 +42,8 @@ var WebTalk = {
 				if(typeof(Log) != undefined && WebTalk.DEBUG == true){
 					Log.debugLog("Loaded Image '" + key + "' from '" + src + "'");
 				}
-				if(typeof(LoadedImages) != undefined && WebTalk.DEBUG == true){
-					LoadedImages.setImage(key, image);
+				if(typeof(Loaded) != undefined && WebTalk.DEBUG == true){
+					Loaded.setImage(key, image);
 				}
 				resolve(image);
 			}

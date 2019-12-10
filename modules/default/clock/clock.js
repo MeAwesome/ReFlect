@@ -2,7 +2,13 @@
 //For Use With: ReFlect
 
 var Clock = {
+	Date:{
+		days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+		months:["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+	},
+	Time:{
 
+	}
 }
 
 var ScriptPlus = {
