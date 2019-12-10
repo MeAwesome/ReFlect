@@ -130,27 +130,6 @@ var WebTalk = {
 	}
 }
 
-function loadImage(dir, key, callback){
-	var image = new Image();
-	image.src = dir;
-	LoadedImages[key] = image;
-	image.onload = function(){
-		webTalkDebugLogging("Loaded Image (" + dir + ") as '" + key + "'");
-		callback();
-	}
-}
-
-function readFileOnline(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function(){
-		if (rawFile.readyState == 4 && rawFile.status == "200"){
-			callback(rawFile.responseText);
-		}
-    }
-    rawFile.send(null);
-}
-
 function loadAudio(dir, key, callback){
 	var audio = new Audio(dir);
 	audio.setAttribute("id", key);

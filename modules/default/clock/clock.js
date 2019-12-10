@@ -8,13 +8,10 @@ var Clock = {
 	},
 	Time:{
 
-	}
-}
-
-var ScriptPlus = {
-	config:{
-		debug:false,
-		version:"1.1.0"
+	},
+	runner:function(){
+		console.log(TimePlus.getCurrentTime());
+		window.requestAnimationFrame(Clock.runner);
 	}
 }
 
@@ -290,18 +287,6 @@ function randomNumber(min, max){
 	var rand = Math.floor(Math.random() * (max - min + 1)) + min;
 	scriptPlusDebugLogging("Picked Random Value (" + rand + ") From Range (" + min + " - " + max + ")");
 	return rand;
-}
-
-function readFileOnline(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function(){
-			if (rawFile.readyState == 4 && rawFile.status == "200"){
-				scriptPlusDebugLogging("Read Online File (" + file + ")");
-				callback(rawFile.responseText);
-			}
-    }
-    rawFile.send(null);
 }
 
 function includeHTML(){

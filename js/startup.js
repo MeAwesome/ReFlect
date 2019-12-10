@@ -12,6 +12,10 @@ async function startReFlect(){
     return 404;
   }
   setLoadingProgressText("Starting ReFlect");
+  document.getElementById("CenteredImageHolder").style.display = "none";
+  for(var mod in MODULES){
+    MODULES[mod].program.runner();
+  }
 }
 
 async function connectToServer(room){
@@ -46,7 +50,7 @@ async function loadModules(){
     try{
       await WebTalk.loadScript("/modules/" + modPath + "/" + modName + ".js");
       MODULES[modName.capitalize()] = {
-        "program":eval(modName.capitalize()),
+        "program":await eval(modName.capitalize()),
         "data":JSON.parse(await WebTalk.getPromise("/modules/" + modPath + "/data.json")),
         "themes":{}
       };
@@ -57,8 +61,7 @@ async function loadModules(){
           "logo":await WebTalk.loadImage(themeName.capitalize() + " Icon", "/modules/" + modPath + "/themes/" + themeName + "/icon.svg")
         };
       }
-    } catch(err) {
-      Log.error(err);
+    } catch {
       Log.error(modName.capitalize() + " does not contain " + modName + ".js, the object " + modName.capitalize() + ", or another required file");
       return 404;
     }
@@ -67,8 +70,8 @@ async function loadModules(){
 }
 
 function setLoadingProgressText(message, error){
-  document.getElementById("Loading Progress").innerHTML = message;
+  document.getElementById("CenteredText").innerHTML = message;
   if(error){
-    document.getElementById("Loading Image").src = "/images/logos/ReFlectErrorBlack.svg";
+    document.getElementById("CenteredImage").src = "/images/logos/ReFlectErrorBlack.svg";
   }
 }
