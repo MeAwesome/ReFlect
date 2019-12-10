@@ -1,6 +1,5 @@
 var WebTalk = {
 	DEBUG:true,
-	getData:null,
 	socket:null,
 	socketData:{
 		connected:null,
