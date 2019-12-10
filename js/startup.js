@@ -1,51 +1,27 @@
 async function startReFlect(){
+  setLoadingProgressText("Connecting To Server");
   await WebTalk.createConnection();
   await WebTalk.connectTo(getDeviceType());
-  Log.log(WebTalk.socketData.connectedToRoom);
-  if(await checkLibraries() == 200){
-    setLoadingProgressText("Initializing The Canvas");
-    MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
-    setLoadingProgressText("Loading Modules [" + CONFIGURATION.modules.length + "]");
-    test = await loadModules();
-    if(await loadModules() == 200){
-      setLoadingProgressText("Starting ReFlect");
-    } else {
-      Log.error("A module was not loaded successfully - Exiting");
-      setLoadingProgressText("Error 404 - Modules Not Loaded", true);
+  CONFIGURATION = JSON.parse(await WebTalk.getPromise("/configuration.json"));
+  setLoadingProgressText("Initializing The Canvas");
+  MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
+  if(await loadModules() == 200){
+    setLoadingProgressText("Starting ReFlect");
+  } else {
+    Log.error("A module was not loaded successfully - Exiting");
+    setLoadingProgressText("Error 404 - Modules Not Loaded", true);
+    return 404;
+  }
+}
+
+function loadModules(){
+  return new Promise(async (resolve, reject) => {
+    if(CONFIGURATION.modules == undefined){
+      reject("Error 404 - CONFIGURATION.modules is undefined");
       return 404;
     }
-  } else {
-    try{
-      Log.error("Libraries were not loaded successfully - Exiting");
-    } catch {
-      console.error("Libraries were not loaded successfully - Exiting");
-    }
-    setLoadingProgressText("Error 404 - Libraries Not Found", true);
-    //return 404;
-  }
-  //return 200;
-}
-
-function getConfiguration(){
-  return new Promise(async (resolve, reject) => {
-    var configFile;
-    try{
-      configFile = await WebTalk.get("/configurationn.json");
-    } catch{
-      reject(404);
-    }
-    //CONFIGURATION = JSON.parse(configFile);
-    //resolve(200);
-  });
-}
-
-async function loadModules(){
-  return await new Promise(async (resolve, reject) => {
-    if(CONFIGURATION.modules == undefined){
-      reject(404);
-    }
-    try{
-      MODULES = {};
+    setLoadingProgressText("Loading Modules [" + CONFIGURATION.modules.length + "]");
+    MODULES = {};
       await CONFIGURATION.modules.forEach(async (mod) => {
         if(typeof(mod) == "string"){
           try{
@@ -61,10 +37,6 @@ async function loadModules(){
         };
       });
       resolve(200);
-    } catch {
-      Log.error("CONFIGURATION does not contain 'modules'");
-      reject(404);
-    }
   });
 }
 

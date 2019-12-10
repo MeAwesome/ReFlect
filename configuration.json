@@ -1,5 +1,6 @@
 {
   "moduless":[
-    "default/cclock"
-  ]
+    "default/clock"
+  ],
+  "test":"testing"
 }

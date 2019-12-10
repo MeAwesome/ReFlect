@@ -1,34 +1,38 @@
 var WebTalk = {
 	DEBUG:true,
+	getData:null,
 	socket:null,
 	socketData:{
 		connected:null,
 		connectedToRoom:"global",
+		connectedAs:"user",
 		helpers:{
-			roomChanged:false
+			roomChanged:false,
+			nameChanged:false,
+			receivedFile:false,
+			receivedFileData:null
 		}
 	},
-	getData:null,
-	get:function(file){
+	getCallback:function(file, callback){
 		var rawFile = new XMLHttpRequest();
-		rawFile.open("GET", file);
-		rawFile.send();
-		rawFile.onload = function(){
-			if(rawFile.status == 200){
-				WebTalk.getData = rawFile.responceText;
-			} else {
-				WebTalk.getData = "[WebTalk.getData] 404";
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function(){
+			if (rawFile.readyState == 4 && rawFile.status == "200"){
+				callback(rawFile.responseText);
 			}
-		}
-		rawFile.onerror = function(){
-			WebTalk.getData = "[WebTalk.getData] 404";
-		}
-		return new Promise((resolve, reject) => {
-			whenNotEquals("WebTalk.getData", "null", () => {
-				var data = WebTalk.getData;
-				WebTalk.getData = null;
-				resolve(data);
-			});
+    }
+    rawFile.send(null);
+	},
+	getPromise:function(file){
+		return new Promise((resolve) => {
+			var rawFile = new XMLHttpRequest();
+	    rawFile.open("GET", file, true);
+	    rawFile.onreadystatechange = function(){
+				if (rawFile.readyState == 4 && rawFile.status == "200"){
+					resolve(rawFile.responseText);
+				}
+	    }
+	    rawFile.send(null);
 		});
 	},
 	loadImage:function(key, src){
@@ -66,9 +70,16 @@ var WebTalk = {
 		WebTalk.socket = await io();
 		await WebTalk.bindSocketOnEvents();
 		await WebTalk.connectTo(WebTalk.socketData.connectedToRoom);
+		await WebTalk.connectAs(WebTalk.socketData.connectedAs);
 	},
 	connectAs:function(name){
-
+		WebTalk.socket.emit("CONNECT_AS", name);
+		return new Promise((resolve) => {
+			whenNotEquals("WebTalk.socketData.helpers.nameChanged", "false", () => {
+				WebTalk.socketData.helpers.nameChanged = false;
+				resolve(200);
+			});
+		});
 	},
 	connectTo:function(room){
 		WebTalk.socket.emit("CONNECT_TO_ROOM", room);
@@ -76,6 +87,17 @@ var WebTalk = {
 			whenNotEquals("WebTalk.socketData.helpers.roomChanged", "false", () => {
 				WebTalk.socketData.helpers.roomChanged = false;
 				resolve(200);
+			});
+		});
+	},
+	requestFileFromServer:function(file){
+		WebTalk.socket.emit("REQUEST_FILE", file);
+		return new Promise((resolve) => {
+			whenNotEquals("WebTalk.socketData.helpers.receivedFile", "false", () => {
+				WebTalk.socketData.helpers.receivedFile = false;
+				var data = WebTalk.socketData.helpers.receivedFileData;
+				WebTalk.socketData.helpers.receivedFileData = null;
+				resolve(data);
 			});
 		});
 	},
@@ -93,10 +115,19 @@ var WebTalk = {
 			WebTalk.socketData.connectedToRoom = room;
 			WebTalk.socketData.helpers.roomChanged = true;
 		});
+		soc.on("CONNECTED_AS", (name) => {
+			WebTalk.socketData.connectedAs = name;
+			WebTalk.socketData.helpers.nameChanged = true;
+		});
+		soc.on("REQUESTED_FILE", (file) => {
+			WebTalk.socketData.helpers.receivedFileData = file;
+			WebTalk.socketData.helpers.receivedFile = true;
+		});
 	},
 	_onSocketReconnect:async function(){
 		WebTalk.socketData.connected = true;
 		await WebTalk.connectTo(WebTalk.socketData.connectedToRoom);
+		await WebTalk.connectAs(WebTalk.socketData.connectedAs);
 	}
 }
 
@@ -108,6 +139,17 @@ function loadImage(dir, key, callback){
 		webTalkDebugLogging("Loaded Image (" + dir + ") as '" + key + "'");
 		callback();
 	}
+}
+
+function readFileOnline(file, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function(){
+		if (rawFile.readyState == 4 && rawFile.status == "200"){
+			callback(rawFile.responseText);
+		}
+    }
+    rawFile.send(null);
 }
 
 function loadAudio(dir, key, callback){

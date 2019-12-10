@@ -1,5 +1,6 @@
 const express = require("express");
 const os = require("os");
+const fs = require("fs");
 const app = express();
 const serv = require("http").Server(app);
 const io = require("socket.io")(serv,{});
@@ -30,8 +31,14 @@ io.on("connection", (socket) => {
 
 	socket.on("CONNECT_TO_ROOM", (room) => {
 		Sockets[socket.id].room = room;
-		Log(room);
+		Log("Room: " + room);
 		Sockets[socket.id].emit("CONNECTED_TO_ROOM", room);
+	});
+
+	socket.on("CONNECT_AS", (name) => {
+		Sockets[socket.id].name = name;
+		Log("Name: " + name);
+		Sockets[socket.id].emit("CONNECTED_AS", name);
 	});
 
 });
