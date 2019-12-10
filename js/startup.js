@@ -1,43 +1,57 @@
 async function startReFlect(){
-  setLoadingProgressText("Connecting To Server");
-  await WebTalk.createConnection();
-  await WebTalk.connectTo(getDeviceType());
-  CONFIGURATION = JSON.parse(await WebTalk.getPromise("/configuration.json"));
-  setLoadingProgressText("Initializing The Canvas");
-  MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
-  if(await loadModules() == 200){
-    setLoadingProgressText("Starting ReFlect");
-  } else {
-    Log.error("A module was not loaded successfully - Exiting");
-    setLoadingProgressText("Error 404 - Modules Not Loaded", true);
+  if(await connectToServer(getDeviceType()) != 200){
     return 404;
   }
+  if(await loadConfiguration() != 200){
+    return 404;
+  }
+  if(await createDOMElements() != 200){
+    return 404;
+  }
+  if(await loadModules() != 200){
+    return 404;
+  }
+  setLoadingProgressText("Starting ReFlect");
 }
 
-function loadModules(){
-  return new Promise(async (resolve, reject) => {
-    if(CONFIGURATION.modules == undefined){
-      reject("Error 404 - CONFIGURATION.modules is undefined");
+async function connectToServer(room){
+  setLoadingProgressText("Connecting To Server");
+  await WebTalk.createConnection();
+  await WebTalk.connectTo(room);
+  return 200;
+}
+
+async function loadConfiguration(){
+  setLoadingProgressText("Loading Configuration File");
+  CONFIGURATION = JSON.parse(await WebTalk.getPromise("/configuration.json"));
+  return 200;
+}
+
+function createDOMElements(){
+  setLoadingProgressText("Initializing The Canvas");
+  MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
+  return 200;
+}
+
+async function loadModules(){
+  if(CONFIGURATION.modules == undefined){
+    Log.error("Error 404 - CONFIGURATION.modules is undefined");
+    return 404;
+  }
+  MODULES = {};
+  for(var mod = 0; mod < CONFIGURATION.modules.length; mod++){
+    setLoadingProgressText("Loading Modules [" + mod + "/" + CONFIGURATION.modules.length + "]");
+    var modPath = CONFIGURATION.modules[mod];
+    var modName = modPath.replace("default/", "");
+    try{
+      await WebTalk.loadScript("/modules/" + modPath + "/" + modName + ".js");
+      MODULES[modName.capitalize()] = eval(modName.capitalize());
+    } catch {
+      Log.error(modName + " does not contain " + modName + ".js or the object " + modName.capitalize());
       return 404;
     }
-    setLoadingProgressText("Loading Modules [" + CONFIGURATION.modules.length + "]");
-    MODULES = {};
-      await CONFIGURATION.modules.forEach(async (mod) => {
-        if(typeof(mod) == "string"){
-          try{
-            await WebTalk.loadScript("/modules/" + mod + mod.replace("default", "") + ".js");
-            MODULES[mod.replace("default/", "").capitalize()] = eval(mod.replace("default/", "").capitalize());
-          } catch {
-            Log.error(mod.replace("default/", "").capitalize() + " does not contain " + mod.replace("default/", "") + ".js or the object " + mod.replace("default/", "").capitalize());
-            reject(404);
-          }
-        } else {
-          Log.error(mod.replace("default/", "").capitalize() + " was not loaded");
-          reject(404);
-        };
-      });
-      resolve(200);
-  });
+  }
+  return 200;
 }
 
 function setLoadingProgressText(message, error){
