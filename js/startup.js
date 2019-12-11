@@ -16,7 +16,7 @@ async function startReFlect(){
   }
   setLoadingProgressText("Starting ReFlect");
   document.getElementById("CenteredImageHolder").style.display = "none";
-  Mirror.start();
+  Mirror.run();
   return 200;
 }
 
@@ -47,6 +47,7 @@ async function createMirrorObject(){
 
 async function loadModules(){
   if(CONFIGURATION.modules == undefined){
+    setLoadingProgressText("Error 404 - CONFIGURATION Missing Data", true);
     Log.error("Error 404 - CONFIGURATION.modules is undefined");
     return 404;
   }
@@ -70,6 +71,7 @@ async function loadModules(){
         };
       }
     } catch {
+      setLoadingProgressText("Error 404 - Module Not Found", true);
       Log.error(modName.capitalize() + " does not contain " + modName + ".js, the object " + modName.capitalize() + ", or another required file");
       return 404;
     }
