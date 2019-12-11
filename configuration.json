@@ -1,5 +1,8 @@
 {
   "modules":[
     "default/clock"
+  ],
+  "homeLayout":[
+    "Clock"
   ]
 }

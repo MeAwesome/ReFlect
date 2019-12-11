@@ -4,14 +4,33 @@
 var Clock = {
 	Date:{
 		days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-		months:["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+		months:["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+		getCurrentDate:function(){
+			var d = new Date();
+			return {
+				year:d.getFullYear(),
+				month:d.getMonth(),
+				weekOfYear:d.getWeek(),
+				dayOfWeek:d.getDay(),
+				dayOfMonth:d.getDate(),
+				monthName:this.Date.months[d.getMonth()],
+				dayName:this.Date.days[d.getDay()]
+			};
+		}
 	},
 	Time:{
-
+		getCurrentTime:function(){
+			var d = new Date();
+			return {
+				hour:d.getHours(),
+				minute:d.getMinutes(),
+				second:d.getSeconds(),
+				millisecond:d.getMilliseconds()
+			};
+		}
 	},
 	runner:function(){
-		console.log(TimePlus.getCurrentTime());
-		window.requestAnimationFrame(Clock.runner);
+		console.log(this.Time.getCurrentTime());
 	}
 }
 
@@ -262,69 +281,4 @@ var TimePlus = {
 				scriptPlusGiveErrorMessage("A Tracker Is Not Running");
 			}
 		},
-}
-
-function getKeyByValue(object, val){
-	if(typeof(object) != "object"){
-		scriptPlusGiveErrorMessage("The Object Given Was Not Recognized");
-		return;
-	}
-	for(var prop in object){
-		if(object.hasOwnProperty(prop)){
-			if(object[prop] == val){
-				scriptPlusDebugLogging("Found Key (" + prop + ") From Object (" + object.constructor.name + ") Using Value (" + val + ")");
-				return prop;
-			}
-		}
-	}
-}
-
-function randomNumber(min, max){
-	if(typeof(min) != "number" || typeof(max) != "number"){
-		scriptPlusGiveErrorMessage("The Values Given Are Not Numbers");
-		return;
-	}
-	var rand = Math.floor(Math.random() * (max - min + 1)) + min;
-	scriptPlusDebugLogging("Picked Random Value (" + rand + ") From Range (" + min + " - " + max + ")");
-	return rand;
-}
-
-function includeHTML(){
-  var tags = document.getElementsByTagName("*");
-  for(var i = 0; i < tags.length; i++){
-    var element = tags[i];
-    var file = element.getAttribute("include-html");
-    if(file){
-			readFileOnline(file, function(html){
-				element.innerHTML = html;
-				element.removeAttribute("include-html");
-				includeHTML();
-			});
-      return;
-    }
-  }
-}
-
-Array.prototype.pickValue = function(){
-	var randomValue = Math.floor(Math.random()*this.length);
-	scriptPlusDebugLogging("Picked Random Value (" + randomValue + ") From Range (0 - " + (this.length - 1) + ")");
-	scriptPlusDebugLogging("The Value Chosen From List (" + this + ") Was (" + this[randomValue] + ")");
-	return this[randomValue];
-}
-
-Date.prototype.getWeek = function() {
-  var d = new Date(this.getFullYear(),0,1);
-  return Math.ceil((((this - d) / 86400000) + d.getDay()+1)/7) - 1;
-}
-
-function scriptPlusDebugLogging(message){
-	if(ScriptPlus.config.debug){
-		console.log("%c[ScriptPlus - Version " + ScriptPlus.config.version + "] " + message, "color:#FF8C00");
-	}
-}
-
-function scriptPlusGiveErrorMessage(message){
-	if(ScriptPlus.config.debug){
-		console.error("%c\n[ScriptPlus - Version " + ScriptPlus.config.version + "] " + message + "\n", "color:#ffffff;font-style:italic;font-weight:bold");
-	}
 }

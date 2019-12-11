@@ -5,7 +5,10 @@ async function startReFlect(){
   if(await loadConfiguration() != 200){
     return 404;
   }
-  if(await createDOMElements() != 200){
+  if(await createCanvas() != 200){
+    return 404;
+  }
+  if(await createMirrorObject() != 200){
     return 404;
   }
   if(await loadModules() != 200){
@@ -13,9 +16,8 @@ async function startReFlect(){
   }
   setLoadingProgressText("Starting ReFlect");
   document.getElementById("CenteredImageHolder").style.display = "none";
-  for(var mod in MODULES){
-    MODULES[mod].program.runner();
-  }
+  Mirror.start();
+  return 200;
 }
 
 async function connectToServer(room){
@@ -31,9 +33,15 @@ async function loadConfiguration(){
   return 200;
 }
 
-function createDOMElements(){
+function createCanvas(){
   setLoadingProgressText("Initializing The Canvas");
   MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
+  return 200;
+}
+
+async function createMirrorObject(){
+  setLoadingProgressText("Initializing The Mirror");
+  await WebTalk.loadScript("/js/mirror.js");
   return 200;
 }
 

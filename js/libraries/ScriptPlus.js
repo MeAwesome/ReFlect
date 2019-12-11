@@ -76,15 +76,3 @@ Date.prototype.getWeek = function() {
 String.prototype.capitalize = function(){
   return this.charAt(0).toUpperCase() + this.slice(1)
 }
-
-function scriptPlusDebugLogging(message){
-	if(ScriptPlus.config.debug){
-		console.log("%c[ScriptPlus - Version " + ScriptPlus.config.version + "] " + message, "color:#FF8C00");
-	}
-}
-
-function scriptPlusGiveErrorMessage(message){
-	if(CanTools.config.debug){
-		console.error("%c\n[ScriptPlus - Version " + CanTools.config.version + "] " + message + "\n", "color:#ffffff;font-style:italic;font-weight:bold");
-	}
-}
