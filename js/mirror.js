@@ -3,7 +3,7 @@ var Mirror = {
   homeLayout:CONFIGURATION.homeLayout,
   start:function(){
     for(var mod in MODULES){
-      if(Mirror.homeLayout.indexOf(mod) > -1){
+      if(Mirror.homeLayout.contains(mod)){
         MODULES[mod].program.runner();
       }
     }
@@ -11,7 +11,7 @@ var Mirror = {
   },
   refresh:function(){
     for(var mod in MODULES){
-      if(Mirror.homeLayout.indexOf(mod) > -1){
+      if(Mirror.homeLayout.contains(mod)){
         MODULES[mod].program.runner();
       }
     }
