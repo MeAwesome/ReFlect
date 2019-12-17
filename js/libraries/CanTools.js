@@ -8,10 +8,12 @@ var CanTools = {
 				canvas.setAttribute("class", "hidden");
 			}
 			document.body.append(canvas);
+			var ctc = new CTC(canvas)
 			CanTools.canvases[id] = {
-				canvas:canvas
+				canvas:canvas,
+				ctc:ctc
 			};
-			return new CTC(canvas);
+			return ctc;
 		}
 	}
 }
@@ -94,6 +96,9 @@ class CTC{
 				this.canvas.height = $(window).height();
 				this.width = this.canvas.width;
 				this.height = this.canvas.height;
+				for(var can in CanTools.canvases){
+					CanTools.canvases[can].ctc.setRegion(CanTools.canvases[can].ctc.region);
+				}
 			}
 		}, this.refreshRate);
 	}
@@ -152,7 +157,6 @@ class CTC{
 			this.region = name;
 			var coords = [this.regions[name].startX, this.regions[name].startY, this.regions[name].endX, this.regions[name].endY];
 			coords.forEach((coord) => {
-				Log.log(coord);
 				if(typeof(coord) != "number"){
 					if(coord.indexOf("W") > -1){
 						if(coord == "1/4W"){

@@ -15,8 +15,10 @@ async function startReFlect(){
     return 404;
   }
   setLoadingProgressText("Starting ReFlect");
-  document.getElementById("CenteredImageHolder").style.display = "none";
-  await Mirror.start();
+  setTimeout(async () => {
+    document.getElementById("CenteredImageHolder").style.display = "none";
+    await Mirror.start();
+  }, 1000);
   return 200;
 }
 
