@@ -92,10 +92,7 @@ class CTC{
 	fullscreen(){
 		this.fullscreenInterval = setInterval(() => {
 			if(this.canvas.width != $(window).width() || this.canvas.height != $(window).height()){
-				this.canvas.width = $(window).width();
-				this.canvas.height = $(window).height();
-				this.width = this.canvas.width;
-				this.height = this.canvas.height;
+				this.changeSize($(window).width(), $(window).height());
 				for(var can in CanTools.canvases){
 					CanTools.canvases[can].ctc.setRegion(CanTools.canvases[can].ctc.region);
 				}
