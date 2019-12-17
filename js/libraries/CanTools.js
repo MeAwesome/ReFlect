@@ -1,44 +1,63 @@
 var CanTools = {
-	config:{
-		debug:true,
-		superdebug:false,
-		version:"2.0.0"
-	},
-	Canvas:function(id, width, height){
-		if(document.getElementById(id) == null){
+	canvases:{},
+	createCanvas:async function(id, hidden){
+		if(!(id in CanTools.canvases) && document.getElementById(id) == null){
 			var canvas = document.createElement("canvas");
 			canvas.setAttribute("id", id);
+			if(hidden){
+				canvas.setAttribute("class", "hidden");
+			}
 			document.body.append(canvas);
-			return new Canvas(canvas, width, height);
+			CanTools.canvases[id] = {
+				canvas:canvas
+			};
+			return new CTC(canvas);
 		}
 	}
 }
 
-class Canvas{
-	constructor(canvas, width, height){
+class CTC{
+	constructor(canvas){
 		this.canvas = canvas;
-		this.context = canvas.getContext("2d");
-		this.width = width;
-		this.height = height;
-		canvas.width = width;
-		canvas.height = height;
+		this.surface = canvas.getContext("2d");
+		this.width = canvas.width;
+		this.height = canvas.height;
+		this.fullscreenInterval = null;
+		this.refreshRate = 60;
+		this.region = "full";
 		this.objects = {};
 		this.groups = {};
-		this.regions = {};
-		this.colors = {
-			"blue":"#0000FF",
-			"lightblue":"#007FFF",
-			"teal":"#00FFFF",
-			"white":"#FFFFFF",
-			"black":"#000000",
-			"grey":"#222222",
-			"red":"#FF0000",
-			"purple":"#8B008B",
-			"felicity":"#008000",
-			"orange":"#FF8C00"
-		};
-		this.fonts = {
-			"felicity":"Viga"
+		this.regions = {
+			"top-bar-full":{
+				startX:0,
+				startY:0,
+				endX:"1W",
+				endY:"1/4H"
+			},
+			"top-bar-left":{
+				startX:0,
+				startY:0,
+				endX:"1/3W",
+				endY:"1/4H"
+			},
+			"top-bar-middle":{
+				startX:"1/3W",
+				startY:0,
+				endX:"2/3W",
+				endY:"1/4H"
+			},
+			"top-bar-right":{
+				startX:"2/3W",
+				startY:0,
+				endX:"1W",
+				endY:"1/4H"
+			},
+			"top-half-full":{
+				startX:0,
+				startY:0,
+				endX:"1W",
+				endY:"1/2H"
+			}
 		};
 		this.defaults = {
 			text:{
@@ -61,7 +80,22 @@ class Canvas{
 				base:"top"//top,middle,bottom
 			}
 		}
-		canToolsDebugLogging("Created New Canvas (" + this + ")");
+	}
+	changeSize(width, height){
+		this.canvas.width = width;
+		this.canvas.height = height;
+		this.width = this.canvas.width;
+		this.height = this.canvas.height;
+	}
+	fullscreen(){
+		this.fullscreenInterval = setInterval(() => {
+			if(this.canvas.width != $(window).width() || this.canvas.height != $(window).height()){
+				this.canvas.width = $(window).width();
+				this.canvas.height = $(window).height();
+				this.width = this.canvas.width;
+				this.height = this.canvas.height;
+			}
+		}, this.refreshRate);
 	}
 	loadFonts(){
 		for(var font = 0;font<Object.keys(this.fonts).length;font++){
@@ -73,27 +107,21 @@ class Canvas{
 				font:Object.keys(this.fonts)[font]
 			});
 		}
-		canToolsDebugLogging("Loaded Fonts (" + Object.keys(this.fonts) + ")");
 	}
 	newObject(descriptions, instantAdd){
 		if(typeof(descriptions) != "object"){
-			canToolsGiveErrorMessage("Failed To Create New Object As The Provided Descriptions Are Invalid");
 			return;
 		}
 		if(descriptions.name == undefined){
 			if(descriptions.type != undefined){
-				canToolsGiveErrorMessage("No Name Defined For Object Type (" + descriptions.type + ")");
-			} else {
-				canToolsGiveErrorMessage("No Name Defined For Object Of Unknown Type");
+			} else {;
 			}
 			return;
 		}
 		if(descriptions.type == undefined){
-			canToolsGiveErrorMessage("No Type Defined For Object (" + descriptions.name + ")");
 			return;
 		}
 		if(descriptions.name in this.objects){
-			canToolsGiveErrorMessage("Failed To Create New Object (" + descriptions.type + ") As (" + descriptions.name + ") For It Already Exists");
 			return;
 		}
 		if(descriptions.group == undefined){
@@ -103,7 +131,6 @@ class Canvas{
 			descriptions.region = this.defaults.text.region;
 		}
 		this.objects[descriptions.name] = descriptions;
-		canToolsDebugLogging("Created New Object (" + descriptions.type + ") As (" + descriptions.name + ")");
 		if(instantAdd){
 			this.drawObject(descriptions.name);
 		}
@@ -117,30 +144,40 @@ class Canvas{
 					this.objects[objs[obj]].groups.push(name);
 				}
 			}
-			canToolsDebugLogging("Created New Group (" + name + ") With Objects (" + objs + ")");
 		} else {
-			canToolsDebugLogging("Created New Group (" + name + ")");
 		}
 	}
-	newRegion(name, descriptions){
-		if(name == undefined || typeof(name) != "string"){
-			canToolsGiveErrorMessage("Unable To Make New Region As No Name Was Given");
-			return;
-		}
-		if(typeof(descriptions) != "object"){
-			canToolsGiveErrorMessage("Unable To Make New Region As The Descriptions Are Not Valid");
-			return;
-		}
-		if(descriptions.objects != undefined){
-			canToolsGiveErrorMessage("Unable To Make New Region (" + name + ") As Objects Were Listed Instead Of Groups");
-			return;
-		}
-		if(descriptions.groups != undefined && typeof(descriptions.groups)){
-			this.regions[name] = descriptions;
-			canToolsDebugLogging("Created New Region (" + name + ")");
-		} else {
-			canToolsGiveErrorMessage("Unable To Make New Region (" + name + ") As No Groups Were Provided");
-			return;
+	setRegion(name){
+		if(name in this.regions){
+			this.region = name;
+			var coords = [this.regions[name].startX, this.regions[name].startY, this.regions[name].endX, this.regions[name].endY];
+			coords.forEach((coord) => {
+				Log.log(coord);
+				if(typeof(coord) != "number"){
+					if(coord.indexOf("W") > -1){
+						if(coord == "1/4W"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.width / 4;
+						} else if(coord == "1/3W"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.width / 3;
+						} else if(coord == "1/2W"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.width / 2;
+						} else if(coord == "1W"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.width;
+						}
+					} else if(coord.indexOf("H") > -1){
+						if(coord == "1/4H"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.height / 4;
+						} else if(coord == "1/3H"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.height / 3;
+						} else if(coord == "1/2H"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.height / 2;
+						} else if(coord == "1H"){
+							coords[coords.indexOf(coord)] = MAIN_DISPLAY.height;
+						}
+					}
+				}
+			});
+			this.changeSize(coords[2] - coords[0], coords[3] - coords[1]);
 		}
 	}
 	drawObject(name){
@@ -154,29 +191,17 @@ class Canvas{
 					this.image(obj);
 					break;
 				default:
-					canToolsDebugLogging("Unknown Object Type (" + obj.type + ") From Object (" + name + ")");
 			}
-			if(CanTools.config.superdebug){
-				canToolsDebugLogging("Drew Object (" + obj.type + ") Named (" + name + ")");
-			}
-		} else {
-			canToolsGiveErrorMessage("Object Cannot Be Drawn Because It Does Not Exist (" + name + ")");
-		}
 	}
+}
 	drawGroup(name){
 		for(var obj = 0;obj<Object.keys(this.groups[name]).length;obj++){
 			this.drawObject(Object.keys(this.groups[name])[obj]);
-		}
-		if(CanTools.config.superdebug){
-			canToolsDebugLogging("Drew Group (" + name + ") With Objects (" + Object.keys(this.groups[name]) + ")");
 		}
 	}
 	drawRegion(name){
 		for(var grp = 0;grp<this.regions[name].groups;grp++){
 			this.drawGroup(this.regions[name].groups[grp]);
-		}
-		if(CanTools.config.superdebug){
-			canToolsDebugLogging("Drew Region (" + name + ") With Groups (" + this.regions[name].groups + ")");
 		}
 	}
 	changeObject(name, descriptions){
@@ -186,12 +211,9 @@ class Canvas{
 					this.objects[name][desc] = descriptions[desc];
 					console.log(desc);
 				}
-				canToolsDebugLogging("Changed Object (" + name + ")");
 			} else {
-				canToolsGiveErrorMessage("Could Not Modify Object (" + name + ") Due To A New Name Or Type Provided");
 			}
 		} else {
-			canToolsGiveErrorMessage("Could Not Modify Object (" + name + ") For It Does Not Exist");
 		}
 	}
 	getGroupObjects(name){
@@ -200,16 +222,15 @@ class Canvas{
 	fill(color, transparency){
 		this._saveValues();
 		if(transparency != undefined){
-			this.context.globalAlpha = transparency;
+			this.surface.globalAlpha = transparency;
 		}
-		if(color in this.colors){
-			this.context.fillStyle = this.colors[color];
+		if(color in Color){
+			this.surface.fillStyle = Color[color];
 		} else {
-			this.context.fillStyle = color;
+			this.surface.fillStyle = color;
 		}
-		this.context.fillRect(0, 0, this.width, this.height);
+		this.surface.fillRect(0, 0, this.width, this.height);
 		this._resetValues();
-		canToolsDebugLogging("Canvas Filled (" + color + ")");
 	}
 	text(descriptions){
 		this._saveValues();
@@ -220,15 +241,12 @@ class Canvas{
 			descriptions.region = this.defaults.text.region;
 		}
 		if(descriptions.text == undefined){
-			canToolsGiveErrorMessage("No Text Was Defined (" + descriptions.name + ")");
 			return;
 		}
 		if(descriptions.x == undefined){
-			canToolsGiveErrorMessage("No X Coordinate Was Defined (" + descriptions.name + ")");
 			return;
 		}
 		if(descriptions.y == undefined){
-			canToolsGiveErrorMessage("No Y Coordinate Was Defined (" + descriptions.name + ")");
 			return;
 		}
 		if(descriptions.align == undefined){
@@ -245,22 +263,22 @@ class Canvas{
 		}
 		if(descriptions.color == undefined){
 			descriptions.color = this.defaults.text.color;
-		} else if(descriptions.color in this.colors){
-			descriptions.color = this.colors[descriptions.color];
+		} else if(descriptions.color in Color){
+			descriptions.color = Color[descriptions.color];
 		}
 		if(descriptions.size == undefined){
 			descriptions.size = this.defaults.text.size;
 		}
 		if(descriptions.font == undefined){
-			if(this.defaults.text.font in this.fonts){
-				descriptions.font = descriptions.size + "px " + this.fonts[this.defaults.text.font];
-			} else {
+			//if(this.defaults.text.font in this.fonts){
+				//descriptions.font = descriptions.size + "px " + this.fonts[this.defaults.text.font];
+			//} else {
 				descriptions.font = descriptions.size + "px " + this.defaults.text.font;
-			}
-		} else if(descriptions.font in this.fonts){
+			//}
+		/* else if(descriptions.font in this.fonts){
 			descriptions.font = descriptions.size + "px " + this.fonts[descriptions.font];
 		} else if(descriptions.font.indexOf("px ") == -1){
-			descriptions.font = descriptions.size + "px " + descriptions.font;
+			descriptions.font = descriptions.size + "px " + descriptions.font;*/
 		}
 		if(descriptions.region != null){
 			descriptions.x += descriptions.region.x;
@@ -274,12 +292,11 @@ class Canvas{
 			strokesize:descriptions.strokesize
 		});
 		if(descriptions.filled){
-			this.context.fillText(descriptions.text, descriptions.x, descriptions.y);
+			this.surface.fillText(descriptions.text, descriptions.x, descriptions.y);
 		} else {
-			this.context.strokeText(descriptions.text, descriptions.x, descriptions.y);
+			this.surface.strokeText(descriptions.text, descriptions.x, descriptions.y);
 		}
 		this._resetValues();
-		canToolsDebugLogging("Wrote Text (" + descriptions.name + ") With Message (" + descriptions.text + ")");
 	}
 	image(descriptions){
 		this._saveValues();
@@ -296,7 +313,6 @@ class Canvas{
 			descriptions.base = this.defaults.image.base;
 		}
 		if(descriptions.image == undefined){
-			canToolsGiveErrorMessage("No Image Was Defined (" + descriptions.name + ")");
 			return;
 		}
 		if(descriptions.width == undefined){
@@ -306,7 +322,6 @@ class Canvas{
 			descriptions.height = descriptions.image.height;
 		}
 		if(descriptions.x == undefined){
-			canToolsGiveErrorMessage("No X Coordinate Was Defined (" + descriptions.name + ")");
 			return;
 		} else if(!descriptions.UpdatedAlign){
 			switch(descriptions.align){
@@ -322,7 +337,6 @@ class Canvas{
 			descriptions.UpdatedAlign = true;
 		}
 		if(descriptions.y == undefined){
-			canToolsGiveErrorMessage("No Y Coordinate Was Defined (" + descriptions.name + ")");
 			return;
 		} else if(!descriptions.UpdatedBase){
 			switch(descriptions.base){
@@ -341,53 +355,31 @@ class Canvas{
 			descriptions.x += descriptions.region.x;
 			descriptions.y += descriptions.region.y;
 		}
-		this.context.drawImage(descriptions.image, descriptions.x, descriptions.y, descriptions.width, descriptions.height);
+		this.surface.drawImage(descriptions.image, descriptions.x, descriptions.y, descriptions.width, descriptions.height);
 		this._resetValues();
-		canToolsDebugLogging("Drew Image (" + getKeyByValue(LoadedImages, descriptions.image) + ")");
 	}
 	_updateValues(options){
 		if(options.color != undefined){
-			this.context.fillStyle = options.color;
-			this.context.strokeStyle = options.color;
+			this.surface.fillStyle = options.color;
+			this.surface.strokeStyle = options.color;
 		}
 		if(options.font != undefined){
-			this.context.font = options.font;
+			this.surface.font = options.font;
 		}
 		if(options.align != undefined){
-			this.context.textAlign = options.align;
+			this.surface.textAlign = options.align;
 		}
 		if(options.base != undefined){
-			this.context.textBaseline = options.base;
+			this.surface.textBaseline = options.base;
 		}
 		if(options.strokesize != undefined){
-			this.context.lineWidth = options.strokesize;
-		}
-		if(CanTools.config.superdebug){
-			canToolsDebugLogging("Canvas Values Changed");
+			this.surface.lineWidth = options.strokesize;
 		}
 	}
 	_saveValues(){
-		this.context.save();
-		if(CanTools.config.superdebug){
-			canToolsDebugLogging("Canvas Saved");
-		}
+		this.surface.save();
 	}
 	_resetValues(){
-		this.context.restore();
-		if(CanTools.config.superdebug){
-			canToolsDebugLogging("Canvas Restored");
-		}
-	}
-}
-
-function canToolsDebugLogging(message){
-	if(CanTools.config.debug){
-		console.log("%c[CanTools - Version " + CanTools.config.version + "] " + message, "color:#FFFF00");
-	}
-}
-
-function canToolsGiveErrorMessage(message){
-	if(CanTools.config.debug){
-		console.error("%c\n[CanTools - Version " + CanTools.config.version + "] " + message + "\n", "color:#ffffff;font-style:italic;font-weight:bold");
+		this.surface.restore();
 	}
 }

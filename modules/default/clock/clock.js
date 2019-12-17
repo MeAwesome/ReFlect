@@ -2,6 +2,7 @@
 //For Use With: ReFlect
 
 var Clock = {
+	canvas:null,
 	Date:{
 		days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 		months:["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -32,7 +33,29 @@ var Clock = {
 			};
 		}
 	},
+	init:async function(){
+		if(window.Date != undefined){
+			this.canvas = await CanTools.createCanvas("clock", true);
+			this.canvas.setRegion("top-bar-left");
+			return 200;
+		}
+		return 404;
+	},
 	runner:function(){
+		var surface = this.canvas;
+		surface.fill("red");
+		surface.text({
+			text:JSON.stringify(this.Time.getCurrentTime()),
+			x:0,
+			y:20,
+			color:"white"
+		});
 		//console.log(this.Time.getCurrentTime());
+	},
+	open:function(){
+		return;
+	},
+	close:function(){
+		return;
 	}
 }

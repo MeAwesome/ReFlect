@@ -16,7 +16,7 @@ async function startReFlect(){
   }
   setLoadingProgressText("Starting ReFlect");
   document.getElementById("CenteredImageHolder").style.display = "none";
-  Mirror.run();
+  await Mirror.start();
   return 200;
 }
 
@@ -33,9 +33,10 @@ async function loadConfiguration(){
   return 200;
 }
 
-function createCanvas(){
+async function createCanvas(){
   setLoadingProgressText("Initializing The Canvas");
-  MAIN_DISPLAY = CanTools.Canvas("mirrorDisplay", $(window).width(), $(window).height());
+  MAIN_DISPLAY = await CanTools.createCanvas("mirrorDisplay", false);
+  MAIN_DISPLAY.fullscreen();
   return 200;
 }
 

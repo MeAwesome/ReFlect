@@ -2,6 +2,7 @@
   "moduleName":"Clock",
   "developer":"Isaac Robbins",
   "requiresVersion":"1.0.0",
+  "category":"utility",
   "config":{
     "region":"top-left",
     "type":"digital",
