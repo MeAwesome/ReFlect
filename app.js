@@ -1,59 +1,36 @@
-const express = require("express");
-const os = require("os");
+var express = require("express");
 const fs = require("fs");
-const app = express();
-const serv = require("http").Server(app);
-const io = require("socket.io")(serv,{});
-const chalk = require("chalk");
-const port = 80;
-
-app.get("/", (req, res) => {
-	res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-	res.sendFile(__dirname + "/index.html");
+var os = require("os");
+var app = express();
+var serv = require("http").Server(app);
+var io = require("socket.io")(serv,{});
+var port = process.env.PORT || 52470;
+app.get("/", function(req, res){
+	res.sendFile(__dirname + "/public/index.html");
 });
-app.use("/", express.static(__dirname + "/"));
-
-const __ConnectTo__ = os.networkInterfaces()["Wi-Fi"][1].address + ":" + port;
-
+app.use("/public", express.static(__dirname + "/public"));
 serv.listen(port);
-console.clear();
-Log("> ReFlect Started" +
-		"\n\t|> " + __ConnectTo__
-, "greenBright");
+if(port != process.env.PORT){
+	var __ConnectTo__ = os.networkInterfaces()["Wi-Fi"][1].address + ":" + port;
+	console.clear();
+	console.log("--> Webpage Started On } " + __ConnectTo__);
+}
 
-const Sockets = {};
+var connections = {};
 
-io.on("connection", (socket) => {
-	socket.id = Math.random();
-	Sockets[socket.id] = socket;
-	Log("> New Device Connection" +
-			"\n\t|-ip: " + socket.request.connection.remoteAddress.replace("::ffff:", "")
-	, "greenBright");
+io.on("connection", function(socket){
 
-	socket.on("CONNECT_TO_ROOM", (room) => {
-		Sockets[socket.id].room = room;
-		Log("Room: " + room);
-		Sockets[socket.id].emit("CONNECTED_TO_ROOM", room);
-	});
+	connections[socket.id] = new Connection(socket);
 
-	socket.on("CONNECT_AS", (name) => {
-		Sockets[socket.id].name = name;
-		Log("Name: " + name);
-		Sockets[socket.id].emit("CONNECTED_AS", name);
-	});
+	socket.emit("connected_to_server");
 
-	socket.on("LOG_MESSAGE", (message) => {
-		Log(message);
+	socket.on("disconnect", () => {
+		delete connections[socket.id];
 	});
 
 });
 
-function Log(message, color){
-	if(color == undefined){
-		color = "white";
-	}
-	console.log(chalk[color](message));
+function Connection(socket){
+	this.socket = socket;
+	this.socketId = socket.id;
 }

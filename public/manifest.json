@@ -1,0 +1,22 @@
+{
+    "name":"ReFlect",
+    "short_name":"ReFlect",
+    "theme_color":"#008000",
+    "background_color":"#000000",
+    "display":"fullscreen",
+    "scope":"/public/",
+    "start_url":"/public/index.html",
+    "orientation":"portrait",
+    "icons":[
+        {
+          "src":"/public/images/logo192.png",
+          "type":"image/png",
+          "sizes":"192x192"
+        },
+      {
+          "src":"/public/images/logo512.png",
+          "type":"image/png",
+          "sizes":"512x512"
+      }
+    ]
+}
