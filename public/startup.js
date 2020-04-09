@@ -4,7 +4,7 @@ window.onload = function(){
 
 function loadFelicity(){
   if("speechSynthesis" in window){
-    console.log(winodow.speechSynthesis.getVoices());
+    console.log(window.speechSynthesis.getVoices());
     document.getElementById("deviceScript").src = "/public/felicity.js";
   } else {
     loadFelicity();
