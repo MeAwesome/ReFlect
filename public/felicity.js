@@ -29,7 +29,7 @@ Felicity.recognizer.onstart = function(){
   console.log("Listening...");
 },
 Felicity.recognizer.onresult = function(res){
-  if(!Felicity.talking && res.resultIndex].isFinal){
+  if(!Felicity.talking && res.results[res.resultIndex].isFinal){
     results = res;
     console.log(res.results[res.resultIndex][0].transcript);
     Felicity.say(res.results[res.resultIndex][0].transcript);
