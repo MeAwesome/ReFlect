@@ -1,9 +1,8 @@
-var Felicity;
 window.onload = function(){
   Felicity = {
     talking:false,
     utterance:new SpeechSynthesisUtterance(),
-    voice:window.speechSynthesis.getVoices()[4],
+    voice:undefined,
     say:function(message){
       var msg = this.utterance;
       msg.text = message;
@@ -14,4 +13,5 @@ window.onload = function(){
       window.speechSynthesis.speak(msg);
     }
   }
+  Felicity.voice = window.speechSynthesis.getVoices()[4];
 }
