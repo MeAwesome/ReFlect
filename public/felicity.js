@@ -1,9 +1,14 @@
 const Felicity = {
   talking:false,
+  utterance:new SpeechSynthesisUtterance(),
+  settings:{
+    lang:"en-US",
+    voice:window.speechSynthesis.getVoices()[4]
+  },
   say:function(message){
-    var msg = new SpeechSynthesisUtterance(message);
-    msg.lang = 'en-US';
-    msg.voice = window.speechSynthesis.getVoices()[4];
+    var msg = this.utterance;
+    msg.lang = this.settings.lang;
+    msg.voice = this.settings.voice;
     msg.onend = function(e) {
       console.log('Finished in ' + event.elapsedTime + ' seconds.');
     };
