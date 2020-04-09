@@ -1,5 +1,6 @@
+var Felicity;
 window.onload = function(){
-  const Felicity = {
+  Felicity = {
     talking:false,
     utterance:new SpeechSynthesisUtterance(),
     voice:window.speechSynthesis.getVoices()[4],
