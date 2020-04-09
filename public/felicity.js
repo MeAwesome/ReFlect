@@ -30,7 +30,7 @@ Felicity.recognizer.onstart = function(){
 Felicity.recognizer.onresult = function(res){
   results = res;
   document.getElementById("result").textContent = res.results[res.resultIndex][0].transcript.trim();
-  if(!Felicity.talking && res.results[res.resultIndex].isFinal && res.results[res.resultIndex][0].confidence >= 0.90){
+  if(!Felicity.talking && res.results[res.resultIndex].isFinal && res.results[res.resultIndex][0].confidence >= 0.85){
     Felicity.lastHeard = res.results[res.resultIndex][0].transcript.trim();
     window.dispatchEvent(new Event("felicityHeard"));
   }
