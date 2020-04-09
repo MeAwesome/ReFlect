@@ -10,8 +10,13 @@ const Felicity = {
   say:function(message){
     var msg = new SpeechSynthesisUtterance(message);
     msg.voice = this.voices[this.settings.voice];
+    msg.onstart = function(e){
+      this.talking = true;
+      console.log(Felicity.talking);
+    }
     msg.onend = function(e) {
-      console.log('Finished in ' + event.elapsedTime + ' seconds.');
+      this.talking = false;
+      console.log(Felicity.talking);
     };
     window.speechSynthesis.speak(msg);
   }
@@ -24,9 +29,11 @@ Felicity.recognizer.onstart = function(){
   console.log("Listening...");
 },
 Felicity.recognizer.onresult = function(res){
-  results = res;
-  console.log(res.results[res.resultIndex][0].transcript);
-  Felicity.say(res.results[res.resultIndex][0].transcript);
+  if(!Felicity.talking){
+    results = res;
+    console.log(res.results[res.resultIndex][0].transcript);
+    Felicity.say(res.results[res.resultIndex][0].transcript);
+  }
 },
 Felicity.recognizer.onend = function(){
   console.log("Stopped Listening");
