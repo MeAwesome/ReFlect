@@ -39,3 +39,7 @@ Felicity.recognizer.onend = function(){
   Felicity.recognizer.start();
 }
 Felicity.recognizer.start();
+
+String.prototype.contains = function(string){
+  return this.indexOf(string) > -1;
+}
