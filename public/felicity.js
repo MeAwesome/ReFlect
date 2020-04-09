@@ -3,7 +3,7 @@ const Felicity = {
     voices:window.speechSynthesis.getVoices(),
     voice:4,
     say:function(message){
-      var msg = utterance:new SpeechSynthesisUtterance(message);
+      var msg = new SpeechSynthesisUtterance(message);
       msg.voice = this.voices[voice];
       msg.onend = function(e) {
         console.log('Finished in ' + event.elapsedTime + ' seconds.');
