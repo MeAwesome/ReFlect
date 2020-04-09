@@ -1,17 +1,13 @@
-window.onload = function(){
-  Felicity = {
+const Felicity = {
     talking:false,
-    utterance:new SpeechSynthesisUtterance(),
-    voice:undefined,
+    voices:window.speechSynthesis.getVoices(),
+    voice:4,
     say:function(message){
-      var msg = this.utterance;
-      msg.text = message;
-      msg.voice = this.voice;
+      var msg = utterance:new SpeechSynthesisUtterance(message);
+      msg.voice = this.voices[voice];
       msg.onend = function(e) {
         console.log('Finished in ' + event.elapsedTime + ' seconds.');
       };
       window.speechSynthesis.speak(msg);
     }
   }
-  Felicity.voice = window.speechSynthesis.getVoices()[4];
-}
