@@ -1,3 +1,3 @@
 window.onload = function(){
-  import Felicity from "/public/felicity.js";
+  document.getElementById("deviceScript").src = "/public/felicity.js";
 }
