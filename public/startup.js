@@ -1,3 +1,3 @@
 window.onload = function(){
-  import "/public/felicity.js";
+  import Felicity from "/public/felicity.js";
 }
