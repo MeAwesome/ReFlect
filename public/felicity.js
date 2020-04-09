@@ -3,7 +3,6 @@ const Felicity = {
   voices:window.speechSynthesis.getVoices(),
   recognizer:new webkitSpeechRecognition(),
   lastHeard:undefined,
-  eventMessanger:new Event("felicityHeard"),
   settings:{
     voice:4,
     continuous:true,
@@ -32,7 +31,7 @@ Felicity.recognizer.onresult = function(res){
   results = res;
   if(!Felicity.talking && res.results[res.resultIndex].isFinal){
     Felicity.lastHeard = res.results[res.resultIndex][0].transcript.trim();
-    window.dispatchEvent(Felicity.eventMessanger);
+    window.dispatchEvent(new Event("felicityHeard"));
   }
 },
 Felicity.recognizer.onend = function(){
