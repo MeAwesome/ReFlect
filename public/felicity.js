@@ -11,11 +11,11 @@ const Felicity = {
     var msg = new SpeechSynthesisUtterance(message);
     msg.voice = this.voices[this.settings.voice];
     msg.onstart = function(e){
-      this.talking = true;
+      Felicity.talking = true;
       console.log(Felicity.talking);
     }
     msg.onend = function(e) {
-      this.talking = false;
+      Felicity.talking = false;
       console.log(Felicity.talking);
     };
     window.speechSynthesis.speak(msg);
