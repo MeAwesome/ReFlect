@@ -34,7 +34,7 @@ Melody.recognizer.onstart = function(){
 Melody.recognizer.onresult = function(res){
   results = res;
   document.getElementById("result").textContent = res.results[res.resultIndex][0].transcript.trim();
-  if(!Melody.talking && res.results[res.resultIndex].isFinal && res.results[res.resultIndex][0].confidence >= 0.85){
+  if(!Melody.talking && res.results[res.resultIndex].isFinal){
     Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
     window.dispatchEvent(new Event("melodyHeard"));
   }
