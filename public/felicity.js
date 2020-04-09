@@ -23,7 +23,7 @@ Felicity.recognizer.onstart = function(){
   console.log("Listening...");
 },
 Felicity.recognizer.onresult = function(res){
-  console.log(res.results[0].transcript);
+  console.log(res.results);
 },
 Felicity.recognizer.onend = function(){
   console.log("Stopped Listening");
