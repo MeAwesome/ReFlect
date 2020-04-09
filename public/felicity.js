@@ -6,7 +6,9 @@ const Felicity = {
   settings:{
     voice:4,
     continuous:true,
-    interimResults:true
+    interimResults:true,
+    lang:"en-US",
+    maxAlternatives:3
   },
   say:function(message){
     var msg = new SpeechSynthesisUtterance(message);
@@ -22,8 +24,10 @@ const Felicity = {
 }
 
 var results;
-Felicity.recognizer.continuous = true;
-Felicity.recognizer.interimResults = true;
+Felicity.recognizer.continuous = Felicity.settings.continuous;
+Felicity.recognizer.interimResults = Felicity.settings.interimResults;
+Felicity.recognizer.lang = Felicity.settings.lang;
+Felicity.recognizer.maxAlternatives = Felicity.settings.maxAlternatives;
 Felicity.recognizer.onstart = function(){
   console.log("Listening...");
 },
