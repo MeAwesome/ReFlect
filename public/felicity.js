@@ -29,5 +29,6 @@ Felicity.recognizer.onresult = function(res){
 },
 Felicity.recognizer.onend = function(){
   console.log("Stopped Listening");
+  Felicity.recognizer.start();
 }
 Felicity.recognizer.start();
