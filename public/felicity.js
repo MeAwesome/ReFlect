@@ -1,7 +1,7 @@
 const Felicity = {
   talking:false,
   voices:window.speechSynthesis.getVoices(),
-  recognizer:new webkitSpeechRecognition(),
+  recognizer:new webkitSpeechRecognition() || new SpeechRecognition(),
   lastHeard:undefined,
   settings:{
     voice:4,
