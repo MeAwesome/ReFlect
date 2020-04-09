@@ -8,7 +8,7 @@ const Felicity = {
     continuous:true,
     interimResults:true,
     lang:"en-US",
-    maxAlternatives:3
+    maxAlternatives:10
   },
   say:function(message){
     var msg = new SpeechSynthesisUtterance(message);
