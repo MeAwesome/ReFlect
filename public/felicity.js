@@ -14,3 +14,7 @@ const Felicity = {
 }
 
 console.log(window.speechSynthesis.getVoices()[4]);
+
+window.onload = function(){
+  console.log(window.speechSynthesis.getVoices()[4]);
+}
