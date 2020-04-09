@@ -1,4 +1,4 @@
-const Felicity = {
+export Felicity = {
   talking:false,
   voices:window.speechSynthesis.getVoices(),
   voice:4,
