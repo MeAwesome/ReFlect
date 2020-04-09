@@ -14,14 +14,15 @@ const Felicity = {
       console.log('Finished in ' + event.elapsedTime + ' seconds.');
     };
     window.speechSynthesis.speak(msg);
-  },
-  this.recognizer.onstart:function(){
-    console.log("Listening...");
-  },
-  this.recognizer.onresult:function(res){
-    console.log(res);
-  },
-  this.recognizer.onend:function(){
-    console.log("Stopped Listening");
   }
+}
+
+Felicity.recognizer.onstart = function(){
+  console.log("Listening...");
+},
+Felicity.recognizer.onresult = function(res){
+  console.log(res);
+},
+Felicity.recognizer.onend = function(){
+  console.log("Stopped Listening");
 }
