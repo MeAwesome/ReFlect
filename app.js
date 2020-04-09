@@ -5,9 +5,13 @@ const app = express();
 const serv = require("http").Server(app);
 const io = require("socket.io")(serv,{});
 const chalk = require("chalk");
-const port = 51000;
+const port = 80;
 
 app.get("/", (req, res) => {
+	res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
 	res.sendFile(__dirname + "/index.html");
 });
 app.use("/", express.static(__dirname + "/"));
@@ -39,6 +43,10 @@ io.on("connection", (socket) => {
 		Sockets[socket.id].name = name;
 		Log("Name: " + name);
 		Sockets[socket.id].emit("CONNECTED_AS", name);
+	});
+
+	socket.on("LOG_MESSAGE", (message) => {
+		Log(message);
 	});
 
 });

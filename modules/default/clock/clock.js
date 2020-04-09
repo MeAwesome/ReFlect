@@ -14,8 +14,10 @@ var Clock = {
 				weekOfYear:d.getWeek(),
 				dayOfWeek:d.getDay(),
 				dayOfMonth:d.getDate(),
-				monthName:this.Date.months[d.getMonth()],
-				dayName:this.Date.days[d.getDay()]
+				firstDayOfMonth:new Date(d.getFullYear(), d.getMonth(), 1).getDay(),
+				daysInMonth:new Date(d.getFullYear(), d.getMonth(), 0).getDate(),
+				monthName:TimePlus.months[d.getMonth()],
+				dayName:TimePlus.days[d.getDay()]
 			};
 		},
 		getDateString:function(){
@@ -37,6 +39,9 @@ var Clock = {
 		if(window.Date != undefined){
 			this.canvas = await CanTools.createCanvas("clock", true);
 			this.canvas.setRegion("top-bar-left");
+			window.addEventListener('devicemotion', function(event) {
+			  WebTalk.socket.emit("LOG_MESSAGE", event.acceleration.y * -1 + ' m/s2');
+			});
 			return 200;
 		}
 		return 404;

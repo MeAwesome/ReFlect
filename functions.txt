@@ -1,0 +1,42 @@
+mirror
+tv
+picture frame
+clock
+weather
+calendar
+news
+alarms
+youtube player
+music player
+maps
+todo lists
+google searches
+games
+email
+call friends
+send messages to friends
+play games with friends
+paired with smartphone app
+	controls the mirror
+	allows for keyboard input
+	allows for mouse input
+	manage your profile
+	add friends
+felicity
+	controls the mirror
+	ask time
+	ask date
+	ask weather
+	ask about the news
+	ask to set/remove alarms
+	ask to play/stop/skip music
+	ask to view your calendar
+	ask about a commute
+	ask to play a game
+	ask to see your email
+	ask to call a friend
+	ask to message a friend
+	ask to play a game with a friend
+	ask something to google search
+	ask to turn into picture mode
+	ask to turn on/off the display
