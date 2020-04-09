@@ -3,7 +3,7 @@ window.speechSynthesis.onvoiceschanged = function(){
 }
 
 window.addEventListener("felicityHeard", (e) => {
-  if(Felicity.lastHeard == "testing"){
-    Felicity.say("You said testing!");
+  if(Felicity.lastHeard == "hello"){
+    Felicity.say("You said hello!");
   }
 });
