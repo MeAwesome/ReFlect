@@ -7,6 +7,7 @@ const Felicity = {
   },
   say:function(message){
     var msg = this.utterance;
+    msg.text = message;
     msg.lang = this.settings.lang;
     msg.voice = this.settings.voice;
     msg.onend = function(e) {
