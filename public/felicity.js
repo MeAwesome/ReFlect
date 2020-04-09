@@ -17,6 +17,8 @@ const Felicity = {
   }
 }
 
+Felicity.recognizer.continuous = true;
+Felicity.recognizer.interimResults = true;
 Felicity.recognizer.onstart = function(){
   console.log("Listening...");
 },
