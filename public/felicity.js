@@ -12,3 +12,5 @@ const Felicity = {
     window.speechSynthesis.speak(msg);
   }
 }
+
+console.log(window.speechSynthesis.getVoices()[4]);
