@@ -1,4 +1,3 @@
-window.speechSynthesis.getVoices();
 const Felicity = {
   talking:false,
   voices:window.speechSynthesis.getVoices(),
