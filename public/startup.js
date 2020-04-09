@@ -3,7 +3,9 @@ window.speechSynthesis.onvoiceschanged = function(){
 }
 
 window.addEventListener("felicityHeard", (e) => {
-  if(Felicity.lastHeard == "hello"){
-    Felicity.say("You said hello!");
+  if(Felicity.lastHeard.indexOf("Felicity") > -1){
+    if(Felicity.lastHeard.indexOf("time") > -1){
+      Felicity.say("The time is " + new Date().toTimeString());
+    }
   }
 });
