@@ -1,11 +1,11 @@
 window.speechSynthesis.onvoiceschanged = function(){
-  document.getElementById("deviceScript").src = "/public/felicity.js";
+  document.getElementById("deviceScript").src = "/public/melody.js";
 }
 
-window.addEventListener("felicityHeard", (e) => {
-  if(Felicity.lastHeard.contains("Felicity")){
-    if(Felicity.lastHeard.contains("time")){
-      Felicity.say("The time is " + new Date().toTimeString());
+window.addEventListener("melodyHeard", (e) => {
+  if(Melody.lastHeard.contains("Melody")){
+    if(Melody.lastHeard.contains("time")){
+      Melody.say("The time is " + new Date().toTimeString());
     }
   }
 });

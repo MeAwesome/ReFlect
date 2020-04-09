@@ -1,4 +1,4 @@
-const Felicity = {
+const Melody = {
   talking:false,
   voices:window.speechSynthesis.getVoices(),
   recognizer:new webkitSpeechRecognition(),
@@ -14,36 +14,36 @@ const Felicity = {
     var msg = new SpeechSynthesisUtterance(message);
     msg.voice = this.voices[this.settings.voice];
     msg.onstart = function(e){
-      Felicity.talking = true;
+      Melody.talking = true;
     }
     msg.onend = function(e) {
-      Felicity.talking = false;
+      Melody.talking = false;
     };
     window.speechSynthesis.speak(msg);
   }
 }
 
 var results;
-Felicity.recognizer.continuous = Felicity.settings.continuous;
-Felicity.recognizer.interimResults = Felicity.settings.interimResults;
-Felicity.recognizer.lang = Felicity.settings.lang;
-Felicity.recognizer.maxAlternatives = Felicity.settings.maxAlternatives;
-Felicity.recognizer.onstart = function(){
+Melody.recognizer.continuous = Melody.settings.continuous;
+Melody.recognizer.interimResults = Melody.settings.interimResults;
+Melody.recognizer.lang = Melody.settings.lang;
+Melody.recognizer.maxAlternatives = Melody.settings.maxAlternatives;
+Melody.recognizer.onstart = function(){
   console.log("Listening...");
 },
-Felicity.recognizer.onresult = function(res){
+Melody.recognizer.onresult = function(res){
   results = res;
   document.getElementById("result").textContent = res.results[res.resultIndex][0].transcript.trim();
-  if(!Felicity.talking && res.results[res.resultIndex].isFinal && res.results[res.resultIndex][0].confidence >= 0.85){
-    Felicity.lastHeard = res.results[res.resultIndex][0].transcript.trim();
-    window.dispatchEvent(new Event("felicityHeard"));
+  if(!Melody.talking && res.results[res.resultIndex].isFinal && res.results[res.resultIndex][0].confidence >= 0.85){
+    Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+    window.dispatchEvent(new Event("melodyHeard"));
   }
 },
-Felicity.recognizer.onend = function(){
+Melody.recognizer.onend = function(){
   console.log("Stopped Listening");
-  Felicity.recognizer.start();
+  Melody.recognizer.start();
 }
-Felicity.recognizer.start();
+Melody.recognizer.start();
 
 String.prototype.contains = function(string){
   return this.indexOf(string) > -1;
