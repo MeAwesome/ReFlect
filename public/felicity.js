@@ -17,12 +17,14 @@ const Felicity = {
   }
 }
 
+var results;
 Felicity.recognizer.continuous = true;
 Felicity.recognizer.interimResults = true;
 Felicity.recognizer.onstart = function(){
   console.log("Listening...");
 },
 Felicity.recognizer.onresult = function(res){
+  results = res;
   console.log(res.results[0][0].transcript);
 },
 Felicity.recognizer.onend = function(){
