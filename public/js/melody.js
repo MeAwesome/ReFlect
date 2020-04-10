@@ -87,3 +87,5 @@ String.prototype.containsAll = function(array){
   }
   return true;
 }
+
+window.dispatchEvent(new Event("melodyLoaded"));

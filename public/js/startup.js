@@ -3,7 +3,18 @@ window.onload = function(){
   createScriptElement("/public/js/Paint.js");
   createScriptElement("/public/js/Color.js");
   createScriptElement("/public/js/Photo.js");
+}
+
+window.speechSynthesis.onvoiceschanged = function(){
+  //Loads seperate because of voices needing to load in
   createScriptElement("/public/js/melody.js");
+}
+
+window.addEventListener("melodyLoaded", (e) => {
+  draw();
+});
+
+function draw(){
   //Initialize the drawing and displaying canvases
   mirror = new Paint("mirror");
   mirrorDisplay = new Paint("mirrorDisplay");
@@ -15,6 +26,7 @@ window.onload = function(){
 
   mirror.fill(Color.black);
   mirror.text("ReFlect", 100, 100, Color.felicity, 150, "Ubuntu");
+  runner();
 }
 
 function runner(){
