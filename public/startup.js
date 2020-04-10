@@ -11,3 +11,7 @@ window.addEventListener("melodyHeard", (e) => {
     Melody.say("The time is " + new Date().toTimeString());
   }
 });
+
+window.addEventListener("melodyHeard", (e) => {
+  console.log("test");
+});
