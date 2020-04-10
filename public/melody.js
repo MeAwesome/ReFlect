@@ -62,3 +62,11 @@ Melody.recognizer.start();
 String.prototype.contains = function(string){
   return this.indexOf(string) > -1;
 }
+
+String.prototype.containsOne = function(array){
+  for(var i = 0; i < array.length; i++){
+    if(this.indexOf(array[i]) > -1){
+      return true;
+    }
+  }
+}
