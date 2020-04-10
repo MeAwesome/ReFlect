@@ -40,15 +40,23 @@ Melody.recognizer.onstart = function(){
 },
 Melody.recognizer.onresult = function(res){
   results = res;
-  document.getElementById("result").textContent = res.results[res.resultIndex][0].transcript.trim();
   if(!Melody.talking && res.results[res.resultIndex].isFinal){
     if(Melody.followUp == false){
-      if(res.results[res.resultIndex][0].transcript.trim().contains(Melody.settings.wakeWord)){
-        Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
-        window.dispatchEvent(new Event("melodyHeard"));
+      for(var r = 0; r < res.results[res.resultIndex].length; r++){
+        if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord)){
+          Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+          window.dispatchEvent(new Event("melodyHeard"));
+          return;
+        }
       }
     } else {
-      Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+      var maxConfidenceResult = 0;
+      for(var r = 0; r < res.results[res.resultIndex].length; r++){
+        if(res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
+          maxConfidenceResult = r;
+        }
+      }
+      Melody.lastHeard = res.results[res.resultIndex][r].transcript.trim();
       window.dispatchEvent(new Event("melodyHeard"));
     }
   }
