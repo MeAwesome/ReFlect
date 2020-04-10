@@ -7,7 +7,8 @@ window.onload = function(){
 
 window.speechSynthesis.onvoiceschanged = function(){
   //Loads seperate because of voices needing to load in
-  createScriptElement("/public/js/melody.js");
+  //Cannot use createScriptElement or multiple are loaded in and breaks
+  document.getElementById("melody").src = "/public/js/melody.js";
 }
 
 window.addEventListener("melodyLoaded", (e) => {
