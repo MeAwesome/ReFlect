@@ -1,9 +1,9 @@
 window.onload = function(){
-  createScriptElement(undefined, "melody");
+  createScriptElement("/public/js/melody.js");
 }
 
 window.speechSynthesis.onvoiceschanged = function(){
-  document.getElementById("melody").src = "/public/js/melody.js";
+  //document.getElementById("melody").src = "/public/js/melody.js";
 }
 
 window.addEventListener("melodyHeard", (e) => {
@@ -16,13 +16,8 @@ window.addEventListener("melodyHeard", (e) => {
   }
 });
 
-function createScriptElement(src, id){
+function createScriptElement(src){
   var script = document.createElement("script");
-  if(src){
-    script.src = src;
-  }
-  if(id){
-    script.id = id;
-  }
+  script.src = src;
   document.head.appendChild(script);
 }
