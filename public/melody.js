@@ -44,7 +44,7 @@ Melody.recognizer.onresult = function(res){
     if(Melody.followUp == false){
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
         if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord)){
-          Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+          Melody.lastHeard = res.results[res.resultIndex][r].transcript.trim();
           window.dispatchEvent(new Event("melodyHeard"));
           return;
         }
@@ -56,7 +56,7 @@ Melody.recognizer.onresult = function(res){
           maxConfidenceResult = r;
         }
       }
-      Melody.lastHeard = res.results[res.resultIndex][r].transcript.trim();
+      Melody.lastHeard = res.results[res.resultIndex][maxConfidenceResult].transcript.trim();
       window.dispatchEvent(new Event("melodyHeard"));
     }
   }
