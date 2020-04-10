@@ -1,8 +1,8 @@
-window.onload = function(){
+window.onload = async function(){
   //Load in required scripts
-  createScriptElement("/public/js/Paint.js");
-  createScriptElement("/public/js/Color.js");
-  createScriptElement("/public/js/Photo.js");
+  await createScriptElement("/public/js/Paint.js");
+  await createScriptElement("/public/js/Color.js");
+  await createScriptElement("/public/js/Photo.js");
 }
 
 window.speechSynthesis.onvoiceschanged = function(){
@@ -12,9 +12,6 @@ window.speechSynthesis.onvoiceschanged = function(){
 }
 
 window.addEventListener("melodyLoaded", (e) => {
-  while(Paint == undefined){
-    
-  }
   draw();
 });
 
@@ -50,7 +47,12 @@ window.addEventListener("melodyHeard", (e) => {
 });
 
 function createScriptElement(src){
-  var script = document.createElement("script");
-  script.src = src;
-  document.head.appendChild(script);
+  return new Promise((resolve) => {
+    var script = document.createElement("script");
+    script.src = src;
+    document.head.appendChild(script);
+    script.onload = function(){
+      resolve();
+    }
+  });
 }
