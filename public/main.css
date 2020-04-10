@@ -8,6 +8,7 @@ html {
 	height:100%;
 	position:relative;
 	color:#FFFFFF;
+	font-family: "Ubuntu", sans-serif;
 }
 
 canvas{
@@ -18,16 +19,4 @@ canvas{
 	border:0;
   overflow:hidden;
   display:block;
-}
-
-.CenteredImageHolder{
-    display: table-cell;
-    height: 100vh;
-    text-align: center;
-    width: 100vw;
-    vertical-align: middle;
-}
-
-.hidden{
-	display:none;
 }
