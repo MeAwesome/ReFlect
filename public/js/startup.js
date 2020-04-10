@@ -12,10 +12,6 @@ window.speechSynthesis.onvoiceschanged = function(){
   document.getElementById("melody").src = "/public/js/melody.js";
 }
 
-window.addEventListener("melodyLoaded", (e) => {
-
-});
-
 function draw(){
   //Initialize the drawing and displaying canvases
   mirror = new Paint("mirror");
@@ -33,7 +29,6 @@ function draw(){
 
 function runner(){
   mirrorDisplay.copyData(mirror, 0, 0, mirrorDisplay.canvas.width, mirrorDisplay.canvas.height);
-  tickCount = (tickCount + 1) % 60;
   window.requestAnimationFrame(runner);
 }
 
