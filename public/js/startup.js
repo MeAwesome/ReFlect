@@ -1,5 +1,9 @@
+window.onload = function(){
+
+}
+
 window.speechSynthesis.onvoiceschanged = function(){
-  document.getElementById("deviceScript").src = "/public/melody.js";
+  createScriptElement("/public/melody.js");
 }
 
 window.addEventListener("melodyHeard", (e) => {
@@ -12,6 +16,10 @@ window.addEventListener("melodyHeard", (e) => {
   }
 });
 
-window.addEventListener("melodyHeard", (e) => {
-  console.log("test");
-});
+function createScriptElement(src){
+  var script = document.createElement("script");
+  script.src = src;
+  script.onload = function(){
+    document.head.appendChild(script);
+  }
+}
