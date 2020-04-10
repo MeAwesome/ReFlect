@@ -39,7 +39,7 @@ Melody.recognizer.interimResults = Melody.settings.interimResults;
 Melody.recognizer.lang = Melody.settings.lang;
 Melody.recognizer.maxAlternatives = Melody.settings.maxAlternatives;
 Melody.recognizer.onstart = function(){
-  console.log("Melody Is Listening");
+  
 },
 Melody.recognizer.onresult = function(res){
   results = res;
@@ -65,7 +65,6 @@ Melody.recognizer.onresult = function(res){
   }
 },
 Melody.recognizer.onend = function(){
-  console.log("Melody Stopped Listening");
   Melody.recognizer.start();
 }
 Melody.recognizer.start();
@@ -90,5 +89,3 @@ String.prototype.containsAll = function(array){
   }
   return true;
 }
-
-console.log("Melody Has Loaded");

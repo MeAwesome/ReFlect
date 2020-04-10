@@ -4,14 +4,8 @@ window.onload = async function(){
   await createScriptElement("/public/js/Paint.js");
   await createScriptElement("/public/js/Color.js");
   await createScriptElement("/public/js/Photo.js");
-  await createScriptElement("/public/js/melody.js");
+  await createScriptElement("/public/js/melody.js");  //Must load here so that speechSynthesis voices are loaded
   draw();
-}
-
-window.speechSynthesis.onvoiceschanged = function(){
-  //Loads seperate because of voices needing to load in
-  //Cannot use createScriptElement or multiple are loaded in and breaks
-  //document.getElementById("melody").src = "/public/js/melody.js";
 }
 
 function draw(){
