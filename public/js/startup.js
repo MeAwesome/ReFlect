@@ -3,6 +3,7 @@ window.onload = async function(){
   await createScriptElement("/public/js/Paint.js");
   await createScriptElement("/public/js/Color.js");
   await createScriptElement("/public/js/Photo.js");
+  draw();
 }
 
 window.speechSynthesis.onvoiceschanged = function(){
@@ -12,7 +13,7 @@ window.speechSynthesis.onvoiceschanged = function(){
 }
 
 window.addEventListener("melodyLoaded", (e) => {
-  draw();
+
 });
 
 function draw(){
