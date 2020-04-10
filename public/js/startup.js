@@ -23,7 +23,7 @@ function draw(){
   mirrorDisplay.setVisibility(true);
 
   mirror.fill(Color.black);
-  mirror.text("ReFlect", 100, 100, Color.felicity, 150, "Ubuntu");
+  mirror.text("ReFlect", 640, 360, Color.felicity, 200, "Ubuntu", "centered");
   runner();
 }
 
