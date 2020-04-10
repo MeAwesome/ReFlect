@@ -4,8 +4,12 @@ window.onload = async function(){
   await createScriptElement("/public/js/Paint.js");
   await createScriptElement("/public/js/Color.js");
   await createScriptElement("/public/js/Photo.js");
-  await createScriptElement("/public/js/melody.js");  //Must load here so that speechSynthesis voices are loaded
   draw();
+}
+
+window.speechSynthesis.onvoiceschanged = function(){
+  //Loads seperate because of voices needing to load in
+  createScriptElement("/public/js/melody.js");
 }
 
 function draw(){
@@ -40,6 +44,12 @@ window.addEventListener("melodyHeard", (e) => {
 
 function createScriptElement(src){
   return new Promise((resolve) => {
+    var scripts = document.getElementsByTagName("script");
+    for(var s = 0; s < scripts.length; s++){
+      if(scripts[s].src == src){
+        resolve();
+      }
+    }
     var script = document.createElement("script");
     script.src = src;
     document.head.appendChild(script);
