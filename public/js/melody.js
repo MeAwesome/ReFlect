@@ -39,29 +39,27 @@ Melody.recognizer.interimResults = Melody.settings.interimResults;
 Melody.recognizer.lang = Melody.settings.lang;
 Melody.recognizer.maxAlternatives = Melody.settings.maxAlternatives;
 Melody.recognizer.onstart = function(){
-  
+
 },
 Melody.recognizer.onresult = function(res){
   results = res;
   if(!Melody.talking && res.results[res.resultIndex].isFinal){
+    var maxConfidenceResult = 0;
     if(Melody.followUp == false){
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
-        if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord)){
-          Melody.lastHeard = res.results[res.resultIndex][r].transcript.trim();
-          window.dispatchEvent(new Event("melodyHeard"));
-          return;
+        if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord) && res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
+          maxConfidenceResult = r;
         }
       }
     } else {
-      var maxConfidenceResult = 0;
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
         if(res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
           maxConfidenceResult = r;
         }
       }
-      Melody.lastHeard = res.results[res.resultIndex][maxConfidenceResult].transcript.trim();
-      window.dispatchEvent(new Event("melodyHeard"));
     }
+    Melody.lastHeard = res.results[res.resultIndex][maxConfidenceResult].transcript.trim();
+    window.dispatchEvent(new Event("melodyHeard"));
   }
 },
 Melody.recognizer.onend = function(){
