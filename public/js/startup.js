@@ -3,7 +3,7 @@ window.onload = function(){
 }
 
 window.speechSynthesis.onvoiceschanged = function(){
-  createScriptElement("/public/melody.js");
+  createScriptElement("/public/js/melody.js");
 }
 
 window.addEventListener("melodyHeard", (e) => {
