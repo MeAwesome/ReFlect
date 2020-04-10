@@ -1,9 +1,9 @@
 window.onload = function(){
-
+  createScriptElement(undefined, "melody");
 }
 
 window.speechSynthesis.onvoiceschanged = function(){
-  createScriptElement("/public/js/melody.js");
+  document.getElementById("melody").src = "/public/js/melody.js";
 }
 
 window.addEventListener("melodyHeard", (e) => {
@@ -16,8 +16,13 @@ window.addEventListener("melodyHeard", (e) => {
   }
 });
 
-function createScriptElement(src){
+function createScriptElement(src, id){
   var script = document.createElement("script");
-  script.src = src;
+  if(src){
+    script.src = src;
+  }
+  if(id){
+    script.id = id;
+  }
   document.head.appendChild(script);
 }
