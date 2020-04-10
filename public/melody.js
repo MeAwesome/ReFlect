@@ -3,14 +3,16 @@ const Melody = {
   voices:window.speechSynthesis.getVoices(),
   recognizer:new webkitSpeechRecognition(),
   lastHeard:undefined,
+  followUp:false,
   settings:{
+    wakeWord:"Melody",
     voice:4,
     continuous:true,
     interimResults:true,
     lang:"en-US",
     maxAlternatives:10
   },
-  say:function(message){
+  say:function(message, followUp){
     var msg = new SpeechSynthesisUtterance(message);
     msg.voice = this.voices[this.settings.voice];
     msg.onstart = function(e){
@@ -18,6 +20,11 @@ const Melody = {
     }
     msg.onend = function(e) {
       Melody.talking = false;
+      if(followUp){
+        Melody.followUp = true;
+      } else {
+        Melody.followUp = false;
+      }
     };
     window.speechSynthesis.speak(msg);
   }
@@ -35,7 +42,13 @@ Melody.recognizer.onresult = function(res){
   results = res;
   document.getElementById("result").textContent = res.results[res.resultIndex][0].transcript.trim();
   if(!Melody.talking && res.results[res.resultIndex].isFinal){
-    Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+    if(Melody.followUp == false){
+      if(res.results[res.resultIndex][0].transcript.trim().contains(Melody.settings.wakeWord)){
+        Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+      }
+    } else {
+      Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+    }
     window.dispatchEvent(new Event("melodyHeard"));
   }
 },

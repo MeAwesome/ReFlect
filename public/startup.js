@@ -3,9 +3,12 @@ window.speechSynthesis.onvoiceschanged = function(){
 }
 
 window.addEventListener("melodyHeard", (e) => {
-  if(Melody.lastHeard.contains("Melody")){
-    if(Melody.lastHeard.contains("time")){
-      Melody.say("The time is " + new Date().toTimeString());
-    }
+  if(Melody.followUp && Melody.lastHeard.contains("anything")){
+    Melody.say("Of course Isaac");
+  }
+  if(Melody.lastHeard.contains("hello")){
+    Melody.say("Hello! What can I do for you?", true);
+  } else if(Melody.lastHeard.contains("time")){
+    Melody.say("The time is " + new Date().toTimeString());
   }
 });
