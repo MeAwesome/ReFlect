@@ -1,9 +1,26 @@
 window.onload = function(){
+  //Load in required scripts
+  createScriptElement("/public/js/Paint.js");
+  createScriptElement("/public/js/Color.js");
+  createScriptElement("/public/js/Photo.js");
   createScriptElement("/public/js/melody.js");
+  //Initialize the drawing and displaying canvases
+  mirror = new Paint("mirror");
+  mirrorDisplay = new Paint("mirrorDisplay");
+  mirror.makeBuffer(mirrorDisplay);
+  mirror.setSize(1280, 720);
+  mirror.setVisibility(false);
+  mirrorDisplay.setSize(window.innerWidth, window.innerHeight);
+  mirrorDisplay.setVisibility(true);
+
+  mirror.fill(Color.black);
+  mirror.text("ReFlect", 100, 100, Color.felicity, 150, "Ubuntu");
 }
 
-window.speechSynthesis.onvoiceschanged = function(){
-  //document.getElementById("melody").src = "/public/js/melody.js";
+function runner(){
+  mirrorDisplay.copyData(mirror, 0, 0, mirrorDisplay.canvas.width, mirrorDisplay.canvas.height);
+  tickCount = (tickCount + 1) % 60;
+  window.requestAnimationFrame(runner);
 }
 
 window.addEventListener("melodyHeard", (e) => {
