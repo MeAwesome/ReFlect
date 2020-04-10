@@ -1,3 +1,6 @@
+//Developed By: Isaac Robbins
+//For Use With: ReFlect
+
 const Melody = {
   talking:false,
   voices:window.speechSynthesis.getVoices(),

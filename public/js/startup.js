@@ -1,15 +1,17 @@
 window.onload = async function(){
   //Load in required scripts
+  //Must use await so all files load before use
   await createScriptElement("/public/js/Paint.js");
   await createScriptElement("/public/js/Color.js");
   await createScriptElement("/public/js/Photo.js");
+  await createScriptElement("/public/js/melody.js");
   draw();
 }
 
 window.speechSynthesis.onvoiceschanged = function(){
   //Loads seperate because of voices needing to load in
   //Cannot use createScriptElement or multiple are loaded in and breaks
-  document.getElementById("melody").src = "/public/js/melody.js";
+  //document.getElementById("melody").src = "/public/js/melody.js";
 }
 
 function draw(){
