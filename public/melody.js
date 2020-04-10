@@ -70,3 +70,12 @@ String.prototype.containsOne = function(array){
     }
   }
 }
+
+String.prototype.containsAll = function(array){
+  for(var i = 0; i < array.length; i++){
+    if(this.indexOf(array[i]) == -1){
+      return false;
+    }
+  }
+  return true;
+}
