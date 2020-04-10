@@ -45,11 +45,12 @@ Melody.recognizer.onresult = function(res){
     if(Melody.followUp == false){
       if(res.results[res.resultIndex][0].transcript.trim().contains(Melody.settings.wakeWord)){
         Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+        window.dispatchEvent(new Event("melodyHeard"));
       }
     } else {
       Melody.lastHeard = res.results[res.resultIndex][0].transcript.trim();
+      window.dispatchEvent(new Event("melodyHeard"));
     }
-    window.dispatchEvent(new Event("melodyHeard"));
   }
 },
 Melody.recognizer.onend = function(){
