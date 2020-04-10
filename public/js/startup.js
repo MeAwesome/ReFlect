@@ -46,6 +46,7 @@ function createScriptElement(src){
   return new Promise((resolve) => {
     var scripts = document.getElementsByTagName("script");
     for(var s = 0; s < scripts.length; s++){
+      console.log(scripts[s].src);
       if(scripts[s].src == src){
         resolve();
         return;
