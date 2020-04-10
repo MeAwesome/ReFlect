@@ -12,6 +12,9 @@ window.speechSynthesis.onvoiceschanged = function(){
 }
 
 window.addEventListener("melodyLoaded", (e) => {
+  while(Paint == undefined){
+    
+  }
   draw();
 });
 
