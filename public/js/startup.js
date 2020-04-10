@@ -7,9 +7,9 @@ window.onload = async function(){
   draw();
 }
 
-window.speechSynthesis.onvoiceschanged = function(){
+window.speechSynthesis.onvoiceschanged = async function(){
   //Loads seperate because of voices needing to load in
-  createScriptElement("/public/js/melody.js");
+  await createScriptElement("/public/js/melody.js");
 }
 
 function draw(){
@@ -48,6 +48,7 @@ function createScriptElement(src){
     for(var s = 0; s < scripts.length; s++){
       if(scripts[s].src == src){
         resolve();
+        return;
       }
     }
     var script = document.createElement("script");
