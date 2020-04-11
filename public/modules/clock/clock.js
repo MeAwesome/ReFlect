@@ -30,7 +30,7 @@ var Clock = {
 		}
 	},
 	runner:function(){
-		mirror.box(0, 0, 100, 100, Color.white);
-		mirror.text(Clock.getTime("standard"), 20, 200, Color.felicity, 50, "Ubuntu");
+		mirror.box(0, 0, 300, 200, Color.black);
+		mirror.text(Clock.getTime("standard"), 20, 50, Color.felicity, 50, "Ubuntu");
 	}
 }
