@@ -4,6 +4,7 @@ window.onload = async function(){
   await createScriptElement("/public/js/Paint.js");
   await createScriptElement("/public/js/Color.js");
   await createScriptElement("/public/js/Photo.js");
+  await createScriptElement("/public/modules/clock/clock.js");
   draw();
 }
 
@@ -28,6 +29,7 @@ function draw(){
 }
 
 function runner(){
+  Clock.runner();
   mirrorDisplay.copyData(mirror, 0, 0, mirrorDisplay.canvas.width, mirrorDisplay.canvas.height);
   window.requestAnimationFrame(runner);
 }
