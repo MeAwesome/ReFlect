@@ -6,7 +6,7 @@ var Clock = {
 		type:"standard"
 	},
 	runner:function(){
-		mirror.box(0, 0, 300, 200, Color.black);
+		mirror.box(0, 0, 300, 200, Color.white);
 		mirror.text(Clock.getTime(), 20, 50, Color.felicity, 50, "Ubuntu");
 	},
 	getHour:function(){
