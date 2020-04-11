@@ -1,11 +1,15 @@
+//Developed By: Isaac Robbins
+//For Use With: ReFlect
+
 window.onload = async function(){
   //Load in required scripts
   //Must use await so all files load before use
+  await createScriptElement("/public/js/mirror.js");
   await createScriptElement("/public/js/Paint.js");
   await createScriptElement("/public/js/Color.js");
   await createScriptElement("/public/js/Photo.js");
   await createScriptElement("/public/modules/clock/clock.js");
-  draw();
+  setupDisplay();
 }
 
 window.speechSynthesis.onvoiceschanged = async function(){
@@ -13,7 +17,7 @@ window.speechSynthesis.onvoiceschanged = async function(){
   await createScriptElement("/public/js/melody.js");
 }
 
-function draw(){
+function setupDisplay(){
   //Initialize the drawing and displaying canvases
   mirror = new Paint("mirror");
   mirrorDisplay = new Paint("mirrorDisplay");
@@ -22,25 +26,9 @@ function draw(){
   mirror.setVisibility(false);
   mirrorDisplay.setSize(window.innerWidth, window.innerHeight);
   mirrorDisplay.setVisibility(true);
-
-  mirror.fill(Color.black);
-  mirror.text("ReFlect", 640, 360, Color.felicity, 200, "Ubuntu", "centered");
-  runner();
+  //Start the mirror
+  refreshMirror();
 }
-
-function runner(){
-  Clock.runner();
-  mirrorDisplay.copyData(mirror, 0, 0, mirrorDisplay.canvas.width, mirrorDisplay.canvas.height);
-  window.requestAnimationFrame(runner);
-}
-
-window.addEventListener("melodyHeard", (e) => {
-  if(Melody.lastHeard.containsOne(["hi", "hello", "hey", "what's up", "high", "hay"])){
-    Melody.say("Hello! What can I do for you?", true);
-  } else if(Melody.lastHeard.containsAll(["weather", "today"])){
-    Melody.say("I don't have the information for the weather yet.");
-  }
-});
 
 function createScriptElement(src){
   return new Promise((resolve) => {

@@ -1,3 +1,6 @@
+//Developed By: Isaac Robbins
+//For Use With: ReFlect
+
 const photos = [];
 const albums = [];
 

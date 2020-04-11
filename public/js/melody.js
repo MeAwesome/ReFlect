@@ -77,6 +77,7 @@ String.prototype.containsOne = function(array){
       return true;
     }
   }
+  return false;
 }
 
 String.prototype.containsAll = function(array){
@@ -93,9 +94,9 @@ String.prototype.containsThisAndOne = function(string, array){
     return false;
   }
   for(var i = 0; i < array.length; i++){
-    if(this.indexOf(array[i]) == -1){
-      return false;
+    if(this.indexOf(array[i]) > -1){
+      return true;
     }
   }
-  return true;
+  return false;
 }

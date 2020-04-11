@@ -1,3 +1,6 @@
+//Developed By: Isaac Robbins
+//For Use With: ReFlect
+
 const CACHE_NAME = "ReFlectCache";
 
 const FILES_TO_CACHE = [
