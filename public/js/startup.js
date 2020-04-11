@@ -30,6 +30,8 @@ function setupDisplay(){
   window.addEventListener("resize", () => {
     mirrorDisplay.setSize(window.innerWidth, window.innerHeight);
   }, {passive:false});
+  //Connect to the server
+  socket = io();
   //Start the mirror
   refreshMirror();
 }
