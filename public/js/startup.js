@@ -32,8 +32,15 @@ function setupDisplay(){
   }, {passive:false});
   //Connect to the server
   socket = io();
+  bindSocketEvents();
   //Start the mirror
   refreshMirror();
+}
+
+function bindSocketEvents(){
+  socket.on("connected_to_server", () => {
+    Melody.say("I've connected to the server!");
+  });
 }
 
 function createScriptElement(src){

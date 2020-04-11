@@ -18,7 +18,3 @@ window.addEventListener("melodyHeard", (e) => {
     Melody.say("I don't have the information for the weather yet.");
   }
 });
-
-socket.on("connected_to_server", () => {
-  Melody.say("I've connected to the server!");
-});
