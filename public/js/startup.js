@@ -22,7 +22,7 @@ function setupDisplay(){
   mirror = new Paint("mirror");
   mirrorDisplay = new Paint("mirrorDisplay");
   mirror.makeBuffer(mirrorDisplay);
-  mirror.setSize(1280, 720);
+  mirror.setSize(3840, 2160);
   mirror.setVisibility(false);
   mirrorDisplay.setSize(window.innerWidth, window.innerHeight);
   mirrorDisplay.setVisibility(true);
