@@ -87,3 +87,15 @@ String.prototype.containsAll = function(array){
   }
   return true;
 }
+
+String.prototype.containsThisAndOne = function(string, array){
+  if(this.indexOf(string) == -1){
+    return false;
+  }
+  for(var i = 0; i < array.length; i++){
+    if(this.indexOf(array[i]) == -1){
+      return false;
+    }
+  }
+  return true;
+}
