@@ -26,6 +26,10 @@ function setupDisplay(){
   mirror.setVisibility(false);
   mirrorDisplay.setSize(window.innerWidth, window.innerHeight);
   mirrorDisplay.setVisibility(true);
+  //Have screen resize with browser
+  window.addEventListener("resize", () => {
+    mirrorDisplay.setSize(window.innerWidth, window.innerHeight);
+  }, {passive:false});
   //Start the mirror
   refreshMirror();
 }
