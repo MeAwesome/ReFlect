@@ -6,8 +6,8 @@ var Clock = {
 		type:"standard"
 	},
 	runner:function(){
-		mirror.box(0, 0, 300, 200, Color.white);
-		mirror.text(Clock.getTime(), 20, 50, Color.felicity, 150, "Ubuntu", "top-left");
+		mirror.box(0, 0, 400, 200, Color.black);
+		mirror.text(Clock.getTime(), 5, 25, Color.white, 150, "Ubuntu", "top-left");
 	},
 	getHour:function(){
 		if(Clock.settings.type == "standard"){
