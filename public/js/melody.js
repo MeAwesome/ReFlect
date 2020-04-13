@@ -48,14 +48,14 @@ Melody.recognizer.onresult = function(res){
     var canSendEvent = false;
     if(Melody.followUp == false){
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
-        if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord) && res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
+        if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord) && res.results[res.resultIndex][r].confidence >= res.results[res.resultIndex][maxConfidenceResult].confidence){
           maxConfidenceResult = r;
           canSendEvent = true;
         }
       }
     } else {
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
-        if(res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
+        if(res.results[res.resultIndex][r].confidence >= res.results[res.resultIndex][maxConfidenceResult].confidence){
           maxConfidenceResult = r;
           canSendEvent = true;
         }
