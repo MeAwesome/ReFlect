@@ -44,21 +44,24 @@ Melody.recognizer.onstart = function(){
 Melody.recognizer.onresult = function(res){
   results = res;
   if(!Melody.talking && res.results[res.resultIndex].isFinal){
-    var maxConfidenceResult = -1;
+    var maxConfidenceResult = 0;
+    var canSendEvent = false;
     if(Melody.followUp == false){
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
         if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord) && res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
           maxConfidenceResult = r;
+          canSendEvent = true;
         }
       }
     } else {
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
         if(res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
           maxConfidenceResult = r;
+          canSendEvent = true;
         }
       }
     }
-    if(maxConfidenceResult != -1){
+    if(canSendEvent){
       Melody.lastHeard = res.results[res.resultIndex][maxConfidenceResult].transcript.trim();
       window.dispatchEvent(new Event("melodyHeard"));
     }
