@@ -44,7 +44,7 @@ Melody.recognizer.onstart = function(){
 Melody.recognizer.onresult = function(res){
   results = res;
   if(!Melody.talking && res.results[res.resultIndex].isFinal){
-    var maxConfidenceResult = 0;
+    var maxConfidenceResult = -1;
     if(Melody.followUp == false){
       for(var r = 0; r < res.results[res.resultIndex].length; r++){
         if(res.results[res.resultIndex][r].transcript.trim().contains(Melody.settings.wakeWord) && res.results[res.resultIndex][r].confidence > res.results[res.resultIndex][maxConfidenceResult].confidence){
@@ -58,8 +58,10 @@ Melody.recognizer.onresult = function(res){
         }
       }
     }
-    Melody.lastHeard = res.results[res.resultIndex][maxConfidenceResult].transcript.trim();
-    window.dispatchEvent(new Event("melodyHeard"));
+    if(maxConfidenceResult != -1){
+      Melody.lastHeard = res.results[res.resultIndex][maxConfidenceResult].transcript.trim();
+      window.dispatchEvent(new Event("melodyHeard"));
+    }
   }
 },
 Melody.recognizer.onend = function(){
