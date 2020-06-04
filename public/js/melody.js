@@ -10,7 +10,7 @@ const Melody = {
   settings:{
     wakeWord:"Melody",
     voice:4,
-    continuous:true,
+    continuous:false,
     interimResults:true,
     lang:"en-US",
     maxAlternatives:10
