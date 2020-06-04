@@ -70,9 +70,9 @@ Melody.recognizer.onresult = function(res){
   }
 },
 Melody.recognizer.onend = function(){
-  Melody.recognizer.start();
+  //Melody.recognizer.start();
 }
-Melody.recognizer.start();
+//Melody.recognizer.start();
 
 String.prototype.contains = function(string){
   return this.indexOf(string) > -1;
