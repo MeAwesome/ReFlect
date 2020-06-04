@@ -17,19 +17,19 @@ const Melody = {
   },
   say:function(message, followUp){
     if(this.voices.length == 0){
-      responsiveVoice.speak(message, "UK English Female", {onstart:Melody._onstart,onend:Melody._onend});
+      responsiveVoice.speak(message, "UK English Female", {onstart:Melody._onstart(),onend:Melody._onend(followUp)});
     } else {
       var msg = new SpeechSynthesisUtterance(message);
       msg.voice = this.voices[this.settings.voice];
       msg.onstart = Melody._onstart();
-      msg.onend = Melody._onend();
+      msg.onend = Melody._onend(followUp);
       window.speechSynthesis.speak(msg);
     }
   },
   _onstart:function(){
     Melody.talking = true;
   },
-  _onend:function(){
+  _onend:function(folowUp){
     Melody.talking = false;
     if(followUp){
       Melody.followUp = true;
