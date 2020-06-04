@@ -16,26 +16,22 @@ const Melody = {
     maxAlternatives:10
   },
   say:function(message, followUp){
+    Melody.followUp = followUp || false;
     if(this.voices.length == 0){
-      responsiveVoice.speak(message, "UK English Female", {onstart:Melody._onstart(),onend:Melody._onend(followUp)});
+      responsiveVoice.speak(message, "UK English Female", {onstart:Melody._onstart,onend:Melody._onend});
     } else {
       var msg = new SpeechSynthesisUtterance(message);
       msg.voice = this.voices[this.settings.voice];
       msg.onstart = Melody._onstart();
-      msg.onend = Melody._onend(followUp);
+      msg.onend = Melody._onend();
       window.speechSynthesis.speak(msg);
     }
   },
   _onstart:function(){
     Melody.talking = true;
   },
-  _onend:function(folowUp){
+  _onend:function(){
     Melody.talking = false;
-    if(followUp){
-      Melody.followUp = true;
-    } else {
-      Melody.followUp = false;
-    }
   }
 }
 
