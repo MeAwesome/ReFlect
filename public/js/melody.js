@@ -10,7 +10,7 @@ const Melody = {
   settings:{
     wakeWord:"Melody",
     voice:4,
-    continuous:false,
+    continuous:true,
     interimResults:true,
     lang:"en-US",
     maxAlternatives:10
@@ -70,9 +70,9 @@ Melody.recognizer.onresult = function(res){
   }
 },
 Melody.recognizer.onend = function(){
-  //Melody.recognizer.start();
+  Melody.recognizer.start();
 }
-//Melody.recognizer.start();
+Melody.recognizer.start();
 
 String.prototype.contains = function(string){
   return this.indexOf(string) > -1;
