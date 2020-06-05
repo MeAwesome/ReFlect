@@ -3,8 +3,9 @@
 
 const Melody = {
   talking:false,
-  voices:window.speechSynthesis.getVoices(),
+  voices:undefined,
   recognizer:new webkitSpeechRecognition(),
+  fallbackMode:undefined,
   lastHeard:undefined,
   followUp:false,
   settings:{
@@ -17,7 +18,7 @@ const Melody = {
   },
   say:function(message, followUp){
     Melody.followUp = followUp || false;
-    if(this.voices.length == 0){
+    if(this.fallbackMode){
       responsiveVoice.speak(message, "UK English Female", {onstart:Melody._onstart,onend:Melody._onend});
     } else {
       var msg = new SpeechSynthesisUtterance(message);
@@ -33,6 +34,14 @@ const Melody = {
   _onend:function(){
     Melody.talking = false;
   }
+}
+
+if(window.speechSynthesis.getVoices().length == 0){
+  Melody.voices = responsiveVoice.getVoices();
+  Melody.fallbackMode = true;
+} else {
+  Melody.voices = window.speechSynthesis.getVoices();
+  Melody.fallbackMode = false;
 }
 
 var results;
