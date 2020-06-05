@@ -39,6 +39,7 @@ const Melody = {
 if(window.speechSynthesis.getVoices().length == 0){
   Melody.voices = responsiveVoice.getVoices();
   Melody.fallbackMode = true;
+  responsiveVoice.debug = false;
 } else {
   Melody.voices = window.speechSynthesis.getVoices();
   Melody.fallbackMode = false;
