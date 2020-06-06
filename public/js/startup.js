@@ -15,8 +15,6 @@ window.onload = async function(){
 window.speechSynthesis.onvoiceschanged = async function(){
   //Loads seperate because of voices needing to load in
   await createScriptElement("/public/js/melody.js");
-  window.dispatchEvent(new Event("melodyLoaded"));
-  Melody.say("hello")
 }
 
 function setupDisplay(){
@@ -42,6 +40,7 @@ function setupDisplay(){
 function bindSocketEvents(){
   socket.on("connected_to_server", () => {
     Melody.say("I've connected to the server!");
+    window.dispatchEvent(new Event("melodyLoaded"));
   });
 }
 
