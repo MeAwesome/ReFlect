@@ -26,10 +26,10 @@ const Melody = {
     this.recognizer.maxAlternatives = this.settings.maxAlternatives;
     this.recognizer.onresult = function(res){
       this.results = res;
-      this.processSpeech(res);
+      Melody.processSpeech(res);
     }
     this.recognizer.onend = function(){
-      this.recognizer.start();
+      Melody.recognizer.start();
     }
   },
   say:function(message, followUp){
