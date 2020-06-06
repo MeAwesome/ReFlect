@@ -113,8 +113,6 @@ if(window.speechSynthesis.getVoices().length == 0){
 Melody.configureRecognizer();
 Melody.recognizer.start();
 
-window.dispatchEvent(new Event("melodyLoaded"));
-
 //Below are added functions for Strings so you can have commands that run based on certain criteria
 
 
