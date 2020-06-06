@@ -40,7 +40,6 @@ function setupDisplay(){
 function bindSocketEvents(){
   socket.on("connected_to_server", () => {
     Melody.say("I've connected to the server!");
-    window.dispatchEvent(new Event("melodyLoaded"));
   });
 }
 

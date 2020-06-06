@@ -45,14 +45,11 @@ var Clock = {
 		} else {
 			return moment().format("H:mm");
 		}
-	},
-	commands:{
-		sayTime:function(){
-			Melody.say("The time is " + Clock.getTimeWithPeriod());
-		}
 	}
 }
 
-window.addEventListener("melodyLoaded", (e) => {
-	Melody.addCommand("clock", ["time"], Clock.commands.sayTime);
+window.addEventListener("melodyHeard", (e) => {
+  if(Melody.lastHeard.contains("time")){
+    Melody.say("The time is " + Clock.getTimeWithPeriod());
+  }
 });
