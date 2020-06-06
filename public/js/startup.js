@@ -16,6 +16,7 @@ window.speechSynthesis.onvoiceschanged = async function(){
   //Loads seperate because of voices needing to load in
   await createScriptElement("/public/js/melody.js");
   window.dispatchEvent(new Event("melodyLoaded"));
+  Melody.say("hello")
 }
 
 function setupDisplay(){
